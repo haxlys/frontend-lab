@@ -1,29 +1,33 @@
-import type { ReactNode } from "react";
+import { ArrowUp, ArrowDown } from "@phosphor-icons/react"
 
 interface StatCardProps {
-  label: string;
-  value: string;
-  change: string;
-  trend: "up" | "down";
-  icon: ReactNode;
+  label: string
+  value: string
+  change: string
+  trend: "up" | "down"
 }
 
-export default function StatCard({ label, value, change, trend, icon }: StatCardProps) {
+export function StatCard({ label, value, change, trend }: StatCardProps) {
+  const isUp = trend === "up"
+
   return (
-    <div className="rounded-xl bg-surface-elevated border border-border p-5 flex flex-col gap-3 transition-shadow hover:shadow-lg hover:shadow-brand/5">
-      <div className="flex items-center justify-between">
-        <span className="text-text-muted text-sm font-medium tracking-wide uppercase">{label}</span>
-        <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-surface text-brand-light">
-          {icon}
+    <div className="bg-white rounded-lg border border-navy-200 p-5 hover:shadow-sm transition-shadow">
+      <p className="text-xs font-medium text-navy-500 uppercase tracking-wide mb-2">
+        {label}
+      </p>
+      <div className="flex items-baseline justify-between">
+        <span className="text-2xl font-semibold text-navy-900 tracking-tight">
+          {value}
         </span>
-      </div>
-      <div className="text-2xl font-bold text-text-primary tracking-tight">{value}</div>
-      <div className="flex items-center gap-1.5 text-sm">
-        <span className={trend === "up" ? "text-success" : "text-danger"}>
-          {trend === "up" ? "▲" : "▼"} {change}
+        <span
+          className={`flex items-center gap-0.5 text-xs font-semibold rounded-full px-2 py-0.5 ${
+            isUp ? "text-emerald-500 bg-emerald-50" : "text-amber-500 bg-amber-50"
+          }`}
+        >
+          {isUp ? <ArrowUp size={12} weight="bold" /> : <ArrowDown size={12} weight="bold" />}
+          {change}
         </span>
-        <span className="text-text-muted">vs last month</span>
       </div>
     </div>
-  );
+  )
 }

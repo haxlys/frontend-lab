@@ -1,75 +1,157 @@
+import { useScrollReveal } from "../hooks/useScrollReveal";
+
 const features = [
   {
+    size: "lg",
+    title: "Real-time Reasoning",
+    desc: "Processes complex queries with chain-of-thought logic at sub-second latency. No more waiting — answers arrive as you think.",
     icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2v10z" />
-        <path d="M9 9h6M9 13h3" />
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
       </svg>
     ),
-    title: '자연어 설계',
-    description:
-      '복잡한 프롬프트 엔지니어링은 이제 그만. 원하는 에이전트의 역할과 동작을 한국어로 설명하면 ADE가 최적의 구성을 자동 생성합니다.',
+    accent: "#8B5CF6",
+    delay: 1,
   },
   {
+    size: "md",
+    title: "Adaptive Memory",
+    desc: "Learns context across sessions. Every interaction makes Nexus smarter and more tuned to your workflow.",
     icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" />
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+        <path d="M21 12a9 9 0 01-9 9M21 3v5h-5M3 12a9 9 0 019-9M3 21v-5h5" />
       </svg>
     ),
-    title: '실시간 테스트',
-    description:
-      '에이전트의 응답을 실시간으로 확인하고, 대화형 디버깅 도구로 의도한 대로 동작하는지 즉시 검증할 수 있습니다.',
+    accent: "#3B82F6",
+    delay: 2,
   },
   {
+    size: "md",
+    title: "Agentic Workflows",
+    desc: "Autonomous agents that plan, execute, and self-correct. Deploy multi-step tasks with a single prompt.",
     icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-        <path d="M12 2v15.77" />
-        <path d="M12 2l-3.09 6.26L2 9.27l5 4.87L5.82 21 12 17.77" />
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
+        <circle cx="9" cy="7" r="4" />
       </svg>
     ),
-    title: '원클릭 배포',
-    description:
-      '완성된 에이전트를 REST API, Slack 봇, 웹 위젯 등 다양한 채널로 즉시 배포할 수 있습니다. CI/CD 파이프라인도 자동 구성됩니다.',
+    accent: "#10B981",
+    delay: 3,
   },
-]
+  {
+    size: "sm",
+    title: "Zero Latency",
+    desc: "Edge-optimized inference engine processes tokens in under 20ms. Feels instantaneous.",
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+      </svg>
+    ),
+    accent: "#8B5CF6",
+    delay: 4,
+  },
+  {
+    size: "sm",
+    title: "Privacy Core",
+    desc: "End-to-end encrypted context. Your data never leaves your control — zero trust by design.",
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+        <path d="M7 11V7a5 5 0 0110 0v4" />
+      </svg>
+    ),
+    accent: "#3B82F6",
+    delay: 5,
+  },
+  {
+    size: "sm",
+    title: "Multi-modal",
+    desc: "Understands text, images, voice, and code. One interface, every modality.",
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+        <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18" />
+        <line x1="7" y1="2" x2="7" y2="22" />
+        <line x1="17" y1="2" x2="17" y2="22" />
+        <line x1="2" y1="12" x2="22" y2="12" />
+        <line x1="2" y1="7" x2="7" y2="7" />
+        <line x1="2" y1="17" x2="7" y2="17" />
+        <line x1="17" y1="7" x2="22" y2="7" />
+        <line x1="17" y1="17" x2="22" y2="17" />
+      </svg>
+    ),
+    accent: "#10B981",
+    delay: 6,
+  },
+];
+
+const sizeClasses: Record<string, string> = {
+  lg: "col-span-2 row-span-2 md:row-span-2",
+  md: "col-span-1 row-span-1 md:col-span-1",
+  sm: "col-span-1 row-span-1",
+};
 
 export default function Features() {
+  const refs = features.map(() => useScrollReveal());
+
   return (
-    <section id="features" className="py-24 sm:py-32 relative">
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-brand-600/10 rounded-full blur-[120px]" />
-      </div>
-      <div className="relative max-w-7xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-400 mb-4">
-            핵심 기능
-          </h2>
-          <p className="text-3xl sm:text-4xl font-bold tracking-tight">
-            개발자를 위한
-            <span className="bg-gradient-to-r from-brand-400 to-brand-300 bg-clip-text text-transparent"> AI 워크플로우</span>
+    <section
+      id="features"
+      className="grid-bg relative px-6 py-24 sm:px-8 lg:px-12"
+    >
+      <div className="mx-auto max-w-7xl">
+        <div className="reveal mb-16 text-center">
+          <p className="mb-3 font-inter text-sm font-medium tracking-widest text-neon-purple-glow uppercase">
+            Platform
           </p>
-          <p className="text-gray-400 mt-4 max-w-xl mx-auto">
-            복잡한 설정 없이, 자연어만으로 완전한 AI 에이전트를 구축하는 경험을 제공합니다.
+          <h2 className="font-geist text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
+            Beyond generation.
+            <br />
+            <span className="text-neon">Autonomous intelligence.</span>
+          </h2>
+          <p className="mt-4 font-inter text-lg text-gray-400">
+            Nexus is not a chatbot — it&apos;s an intelligence layer for your entire stack.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {features.map((feature, i) => (
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-5">
+          {features.map((f, i) => (
             <div
-              key={feature.title}
-              className="group relative p-8 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] hover:border-brand-400/20 transition-all duration-300"
-              style={{ animationDelay: `${i * 0.15}s` }}
+              key={f.title}
+              ref={refs[i]}
+              className={`reveal glass-card glow-border relative flex flex-col rounded-2xl p-6 md:p-8 ${
+                sizeClasses[f.size]
+              } reveal-delay-${f.delay}`}
+              style={{
+                minHeight: f.size === "lg" ? "340px" : f.size === "md" ? "240px" : "180px",
+              }}
             >
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand-500/20 to-brand-600/10 border border-brand-400/20 flex items-center justify-center text-brand-400 mb-5 group-hover:from-brand-500/30 group-hover:to-brand-600/20 group-hover:border-brand-400/30 transition-all duration-300">
-                {feature.icon}
+              <div className="bento-glow-inner absolute inset-0 rounded-2xl pointer-events-none" />
+              <div
+                className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl transition-colors duration-500"
+                style={{
+                  background: `${f.accent}15`,
+                  color: f.accent,
+                  boxShadow: `0 0 20px ${f.accent}15`,
+                }}
+              >
+                {f.icon}
               </div>
-              <h3 className="text-lg font-semibold mb-3">{feature.title}</h3>
-              <p className="text-gray-400 text-sm leading-relaxed">{feature.description}</p>
+              <h3 className="font-geist text-lg font-semibold text-white sm:text-xl">
+                {f.title}
+              </h3>
+              <p className="mt-2 font-inter text-sm leading-relaxed text-gray-400">
+                {f.desc}
+              </p>
+
+              {/* Decorative corner accent */}
+              <div
+                className="absolute top-3 right-3 h-2 w-2 rounded-full opacity-30"
+                style={{ background: f.accent, boxShadow: `0 0 8px ${f.accent}` }}
+              />
             </div>
           ))}
         </div>
       </div>
     </section>
-  )
+  );
 }

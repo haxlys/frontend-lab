@@ -1,21 +1,23 @@
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import Features from "./components/Features";
-import HowItWorks from "./components/HowItWorks";
-import Pricing from "./components/Pricing";
-import Footer from "./components/Footer";
+import Navbar from './components/Navbar'
+import HeroSection from './components/HeroSection'
+import FeatureShowcase from './components/FeatureShowcase'
+import CTASection from './components/CTASection'
+import Footer from './components/Footer'
+import MouseFollower from './components/MouseFollower'
+import ScrollReveal from './components/ScrollReveal'
 
 export default function App() {
   return (
-    <div className="min-h-screen">
+    <div className="relative bg-black text-white min-h-screen overflow-x-hidden">
+      <MouseFollower />
+      <ScrollReveal />
       <Navbar />
       <main>
-        <Hero />
-        <Features />
-        <HowItWorks />
-        <Pricing />
+        <HeroSection />
+        <FeatureShowcase />
+        <CTASection />
       </main>
       <Footer />
     </div>
-  );
+  )
 }

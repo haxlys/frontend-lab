@@ -1,19 +1,21 @@
-import Hero from "./components/Hero";
-import Features from "./components/Features";
-import HowItWorks from "./components/HowItWorks";
-import Pricing from "./components/Pricing";
-import Footer from "./components/Footer";
+import Navbar from './components/Navbar';
+import Hero from './components/Hero';
+import BentoFeatures from './components/BentoFeatures';
+import CTA from './components/CTA';
+import Footer from './components/Footer';
+import CursorGlow from './components/CursorGlow';
 
-function App() {
+export default function App() {
   return (
     <>
-      <Hero />
-      <Features />
-      <HowItWorks />
-      <Pricing />
+      <CursorGlow />
+      <Navbar />
+      <main>
+        <Hero />
+        <BentoFeatures />
+        <CTA />
+      </main>
       <Footer />
     </>
   );
 }
-
-export default App;

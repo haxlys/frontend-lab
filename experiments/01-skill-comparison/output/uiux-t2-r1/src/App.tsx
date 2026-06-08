@@ -1,19 +1,17 @@
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import Features from "./components/Features";
-import HowItWorks from "./components/HowItWorks";
-import Pricing from "./components/Pricing";
-import Footer from "./components/Footer";
+import Navbar from './components/Navbar';
+import MouseGlow from './components/MouseGlow';
+import Hero from './components/Hero';
+import Features from './components/Features';
+import Footer from './components/Footer';
 
 export default function App() {
   return (
-    <div className="min-h-screen overflow-x-hidden">
+    <div className="relative min-h-screen bg-black text-white overflow-x-hidden">
+      <MouseGlow />
       <Navbar />
       <main>
         <Hero />
         <Features />
-        <HowItWorks />
-        <Pricing />
       </main>
       <Footer />
     </div>

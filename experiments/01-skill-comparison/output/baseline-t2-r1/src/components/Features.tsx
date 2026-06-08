@@ -1,66 +1,180 @@
-const features = [
-  {
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
-      </svg>
-    ),
-    title: '자연어 에이전트 설계',
-    description: '복잡한 DSL이나 YAML 없이, 한국어로 대화하듯 에이전트의 역할과 동작을 정의하세요. 실시간 프리뷰로 구조를 직관적으로 파악할 수 있습니다.',
-    gradient: 'from-ade-500 to-violet-500',
-  },
-  {
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
-      </svg>
-    ),
-    title: 'AI 기반 지능형 테스트',
-    description: '에이전트의 동작을 실제 환경과 동일한 샌드박스에서 단계별로 검증합니다. 예상치 못한 엣지 케이스도 AI가 자동으로 발견하고 리포트합니다.',
-    gradient: 'from-amber-500 to-orange-500',
-  },
-  {
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
-      </svg>
-    ),
-    title: '원클릭 API 배포',
-    description: '완성된 에이전트를 REST API 엔드포인트로 즉시 배포하세요. 로드밸런싱, 인증, 로깅이 자동으로 구성된 프로덕션 환경을 제공합니다.',
-    gradient: 'from-emerald-500 to-teal-500',
-  },
-]
+import { Zap, Brain, Globe, Shield, BarChart3, Code2 } from 'lucide-react';
+import ScrollReveal from './ScrollReveal';
+import CTAButton from './CTAButton';
 
-function Features() {
-  return (
-    <section id="features" className="py-24 sm:py-32">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
-            왜 <span className="text-ade-400">ADE</span>인가요?
-          </h2>
-          <p className="mt-4 text-slate-400 text-lg max-w-xl mx-auto">
-            반복적인 코드 작업에서 벗어나, 아이디어에 집중하세요.
-          </p>
-        </div>
-
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map((f) => (
-            <div
-              key={f.title}
-              className="group relative rounded-2xl border border-slate-800 bg-surface-light/50 p-8 hover:border-slate-700 transition-all duration-300 hover:-translate-y-1"
-            >
-              <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${f.gradient} bg-opacity-10 flex items-center justify-center text-white mb-5 shadow-lg`}>
-                {f.icon}
-              </div>
-              <h3 className="text-lg font-semibold text-white mb-3">{f.title}</h3>
-              <p className="text-slate-400 leading-relaxed text-sm">{f.description}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
+interface FeatureCard {
+  icon: React.ElementType;
+  title: string;
+  description: string;
+  size: 'sm' | 'md' | 'lg' | 'xl';
+  accent: 'purple' | 'blue' | 'emerald';
 }
 
-export default Features
+const FEATURES: FeatureCard[] = [
+  {
+    icon: Brain,
+    title: 'Neural Reasoning Engine',
+    description:
+      'Our proprietary architecture chains together thousands of reasoning steps in parallel, producing answers that are not only accurate but explainable.',
+    size: 'xl',
+    accent: 'purple',
+  },
+  {
+    icon: Zap,
+    title: 'Sub-Second Inferencing',
+    description: 'Optimized CUDA kernels and speculative decoding deliver responses faster than you can type.',
+    size: 'sm',
+    accent: 'emerald',
+  },
+  {
+    icon: Shield,
+    title: 'Enterprise-Grade Security',
+    description: 'SOC 2 Type II, HIPAA, and GDPR compliant. Your data never leaves your VPC.',
+    size: 'sm',
+    accent: 'blue',
+  },
+  {
+    icon: Globe,
+    title: 'Multilingual by Default',
+    description: '100+ languages with native-level fluency. Zero translation latency across all supported locales.',
+    size: 'sm',
+    accent: 'purple',
+  },
+  {
+    icon: BarChart3,
+    title: 'Real-Time Analytics',
+    description: 'Monitor usage, cost, and performance with millisecond granularity through our purpose-built dashboard.',
+    size: 'sm',
+    accent: 'blue',
+  },
+  {
+    icon: Code2,
+    title: 'Developer-First',
+    description: 'REST, GraphQL, and gRPC APIs with SDKs for Python, TypeScript, Go, and Rust. Deploy in one command.',
+    size: 'md',
+    accent: 'emerald',
+  },
+];
+
+const accentGradients = {
+  purple: 'from-neon-purple/20 via-neon-purple/5 to-transparent',
+  blue: 'from-electric-blue/20 via-electric-blue/5 to-transparent',
+  emerald: 'from-emerald/20 via-emerald/5 to-transparent',
+};
+
+const accentBorders = {
+  purple: 'border-neon-purple/20 hover:border-neon-purple/40',
+  blue: 'border-electric-blue/20 hover:border-electric-blue/40',
+  emerald: 'border-emerald/20 hover:border-emerald/40',
+};
+
+const accentGlows = {
+  purple: 'hover:shadow-[0_0_30px_rgba(139,92,246,0.15)]',
+  blue: 'hover:shadow-[0_0_30px_rgba(59,130,246,0.15)]',
+  emerald: 'hover:shadow-[0_0_30px_rgba(16,185,129,0.15)]',
+};
+
+export default function Features() {
+  return (
+    <section id="features" className="relative py-24 sm:py-32 px-6">
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-deep-charcoal to-black" />
+
+      <div className="relative max-w-7xl mx-auto">
+        <ScrollReveal>
+          <div className="text-center mb-16 sm:mb-20">
+            <span className="inline-block text-xs font-semibold tracking-widest uppercase text-neon-purple mb-4">
+              Core Capabilities
+            </span>
+            <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-6 leading-[1.1]">
+              Intelligence that
+              <br />
+              <span className="text-gradient">Scales</span> with You
+            </h2>
+            <p className="text-gray-400 text-base sm:text-lg max-w-xl mx-auto font-light">
+              Every component of NexusAI is designed from the ground up for speed, safety, and scale.
+            </p>
+          </div>
+        </ScrollReveal>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-[minmax(180px,auto)]">
+          {FEATURES.map((feature, i) => {
+            const Icon = feature.icon;
+            const sizeClasses = {
+              sm: 'lg:col-span-1 lg:row-span-1',
+              md: 'lg:col-span-1 lg:row-span-2',
+              lg: 'lg:col-span-2 lg:row-span-1',
+              xl: 'lg:col-span-2 lg:row-span-2',
+            };
+
+            return (
+              <ScrollReveal key={feature.title} delay={i * 100}>
+                <div
+                  className={`
+                    ${sizeClasses[feature.size]}
+                    relative group glass-card rounded-2xl p-6 sm:p-8
+                    ${accentBorders[feature.accent]}
+                    ${accentGlows[feature.accent]}
+                    transition-all duration-500 overflow-hidden
+                  `}
+                >
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-br ${accentGradients[feature.accent]} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+                  />
+
+                  <div className="relative h-full flex flex-col">
+                    <div
+                      className={`
+                        w-10 h-10 rounded-xl flex items-center justify-center mb-5
+                        ${feature.accent === 'purple' ? 'bg-neon-purple/10 text-neon-purple' : ''}
+                        ${feature.accent === 'blue' ? 'bg-electric-blue/10 text-electric-blue' : ''}
+                        ${feature.accent === 'emerald' ? 'bg-emerald/10 text-emerald' : ''}
+                      `}
+                    >
+                      <Icon className="w-5 h-5" />
+                    </div>
+
+                    <h3 className="font-display text-lg sm:text-xl font-semibold text-white mb-3 leading-tight">
+                      {feature.title}
+                    </h3>
+
+                    <p className="text-gray-400 text-sm leading-relaxed flex-1 font-light">
+                      {feature.description}
+                    </p>
+
+                    <div className="mt-4">
+                      <span
+                        className={`
+                          inline-flex items-center gap-1 text-xs font-medium
+                          ${feature.accent === 'purple' ? 'text-neon-purple' : ''}
+                          ${feature.accent === 'blue' ? 'text-electric-blue' : ''}
+                          ${feature.accent === 'emerald' ? 'text-emerald' : ''}
+                        `}
+                      >
+                        Learn more
+                        <svg className="w-3 h-3 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                        </svg>
+                      </span>
+                    </div>
+                  </div>
+
+                  {feature.size === 'xl' && (
+                    <div className="absolute top-0 right-0 w-64 h-64 pointer-events-none opacity-10">
+                      <div className="w-full h-full rounded-full bg-gradient-to-br from-neon-purple to-electric-blue blur-3xl" />
+                    </div>
+                  )}
+                </div>
+              </ScrollReveal>
+            );
+          })}
+        </div>
+
+        <ScrollReveal delay={200}>
+          <div className="mt-16 text-center">
+            <CTAButton variant="outline">View All Features</CTAButton>
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
+  );
+}

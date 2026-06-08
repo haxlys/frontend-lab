@@ -1,0 +1,13 @@
+# Design System
+- Primary: #6366f1 (indigo-500)
+- Secondary: #ec4899 (pink-500)
+- Background: #f8fafc (slate-50)
+- Surface: #ffffff
+- Text Primary: #1e293b (slate-800)
+- Text Secondary: #64748b (slate-500)
+- Font: Inter, system-ui
+- Base Size: 16px
+- Scale: 14/16/20/24/32/48
+- Border Radius: 8px (default), 16px (cards), 9999px (pills)
+- Shadow: sm: 0 1px 2px, md: 0 4px 6px -1px, lg: 0 10px 15px -3px
+- Transition: all 200ms ease

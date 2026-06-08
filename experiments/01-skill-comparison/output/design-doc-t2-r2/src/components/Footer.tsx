@@ -1,38 +1,26 @@
 export default function Footer() {
   return (
-    <footer className="border-t border-slate-200 bg-white">
-      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center justify-between gap-8 sm:flex-row">
-          <div className="flex items-center gap-2 text-lg font-bold text-slate-900">
-            <span className="flex h-7 w-7 items-center justify-center rounded-md bg-gradient-to-br from-primary-500 to-secondary-500 text-white text-xs">
-              A
-            </span>
-            ADE
+    <footer className="relative border-t border-white/5 py-12 px-6">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 rounded-md bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center">
+            <span className="text-white font-display font-bold text-[10px]">N</span>
           </div>
+          <span className="text-sm text-white/30 font-medium">NEXUS AI © 2026</span>
+        </div>
 
-          <div className="flex flex-wrap justify-center gap-6 text-sm">
-            <a href="#" className="text-slate-500 transition-colors hover:text-slate-700">
-              블로그
+        <div className="flex items-center gap-8">
+          {['Privacy', 'Terms', 'Status', 'Twitter'].map((link) => (
+            <a
+              key={link}
+              href="#"
+              className="text-xs text-white/25 hover:text-white/50 transition-colors duration-300"
+            >
+              {link}
             </a>
-            <a href="#" className="text-slate-500 transition-colors hover:text-slate-700">
-              문서
-            </a>
-            <a href="#" className="text-slate-500 transition-colors hover:text-slate-700">
-              GitHub
-            </a>
-            <a href="#" className="text-slate-500 transition-colors hover:text-slate-700">
-              이용약관
-            </a>
-            <a href="#" className="text-slate-500 transition-colors hover:text-slate-700">
-              개인정보처리방침
-            </a>
-          </div>
-
-          <p className="text-xs text-slate-400">
-            &copy; {new Date().getFullYear()} ADE. All rights reserved.
-          </p>
+          ))}
         </div>
       </div>
     </footer>
-  );
+  )
 }

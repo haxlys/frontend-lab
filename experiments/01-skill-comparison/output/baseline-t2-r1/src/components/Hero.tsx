@@ -1,69 +1,85 @@
-function Hero() {
-  return (
-    <section className="relative pt-32 pb-20 sm:pt-40 sm:pb-28 overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-ade-900/30 via-surface to-surface pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-ade-600/10 blur-[120px] pointer-events-none" />
+import { useEffect, useRef } from 'react';
+import HeroCanvas from './HeroCanvas';
+import CTAButton from './CTAButton';
 
-      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-ade-500/30 bg-ade-500/10 text-ade-300 text-sm mb-8">
+export default function Hero() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    requestAnimationFrame(() => {
+      el.style.transition = 'opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1)';
+      el.style.opacity = '1';
+      el.style.transform = 'translateY(0)';
+    });
+  }, []);
+
+  return (
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <HeroCanvas />
+
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/80 pointer-events-none" />
+
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px]">
+        <div
+          className="w-full h-full rounded-full animate-spin-slow"
+          style={{
+            background:
+              'conic-gradient(from 0deg, transparent, rgba(139,92,246,0.08), transparent, rgba(59,130,246,0.08), transparent)',
+            filter: 'blur(80px)',
+          }}
+        />
+      </div>
+
+      <div className="absolute top-1/3 right-1/4 w-2 h-2 rounded-full bg-neon-purple animate-pulse-glow shadow-[0_0_20px_#8B5CF6,0_0_60px_#8B5CF6]" />
+      <div className="absolute bottom-1/3 left-1/4 w-1.5 h-1.5 rounded-full bg-electric-blue animate-pulse-glow shadow-[0_0_15px_#3B82F6,0_0_40px_#3B82F6]" style={{ animationDelay: '1.5s' }} />
+      <div className="absolute top-1/2 right-1/3 w-1 h-1 rounded-full bg-emerald animate-pulse-glow shadow-[0_0_10px_#10B981,0_0_30px_#10B981]" style={{ animationDelay: '0.8s' }} />
+
+      <div ref={containerRef} className="relative z-10 text-center px-6 max-w-4xl mx-auto">
+        <div className="mb-8 inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass border border-white/5 text-xs font-medium text-gray-300">
           <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-ade-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-ade-400" />
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald" />
           </span>
-          Agent Development Editor — 지금 출시
+          Now in Public Beta — v2.0
         </div>
 
-        <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-white leading-tight">
-          자연어로 설계하는
+        <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[80px] font-bold leading-[1.05] tracking-tight text-white mb-6">
+          The Future of{' '}
+          <span className="text-gradient">Intelligence</span>
           <br />
-          <span className="bg-gradient-to-r from-ade-400 via-ade-500 to-violet-400 bg-clip-text text-transparent">
-            AI 에이전트 개발
-          </span>
+          is Here
         </h1>
 
-        <p className="mt-6 text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
-          복잡한 코드 없이 자연어만으로 AI 에이전트를 설계, 테스트, 배포하세요.
-          프로토타입부터 프로덕션까지, 단 하나의 에디터로 완성합니다.
+        <p className="text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed font-light">
+          NexusAI combines neural architecture with real-time reasoning to deliver
+          <br className="hidden sm:block" />
+          answers, automate workflows, and unlock human potential — at the speed of thought.
         </p>
 
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a
-            href="#pricing"
-            className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-ade-600 hover:bg-ade-500 text-white font-semibold text-base transition-all shadow-lg shadow-ade-600/25 hover:shadow-ade-500/30"
-          >
-            무료로 시작하기
-          </a>
-          <a
-            href="#features"
-            className="w-full sm:w-auto px-8 py-3.5 rounded-xl border border-slate-700 hover:border-slate-500 text-slate-300 hover:text-white font-semibold text-base transition-all"
-          >
-            기능 살펴보기 →
-          </a>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <CTAButton variant="primary">Start Building Free</CTAButton>
+          <CTAButton variant="outline">Explore the Docs</CTAButton>
         </div>
 
-        <div className="mt-16 flex items-center justify-center gap-8 text-slate-500 text-sm">
-          <span className="flex items-center gap-2">
-            <svg className="w-4 h-4 text-ade-500" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-            </svg>
-            코드 작성 불필요
-          </span>
-          <span className="flex items-center gap-2">
-            <svg className="w-4 h-4 text-ade-500" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-            </svg>
-            실시간 테스트
-          </span>
-          <span className="flex items-center gap-2">
-            <svg className="w-4 h-4 text-ade-500" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-            </svg>
-            원클릭 배포
-          </span>
+        <div className="mt-16 flex items-center justify-center gap-8">
+          {[
+            { value: '10M+', label: 'Requests/day' },
+            { value: '99.97%', label: 'Uptime SLA' },
+            { value: '150ms', label: 'Avg Latency' },
+          ].map((stat) => (
+            <div key={stat.label} className="text-center">
+              <div className="font-display text-2xl sm:text-3xl font-bold text-white">{stat.value}</div>
+              <div className="text-xs text-gray-500 mt-1">{stat.label}</div>
+            </div>
+          ))}
         </div>
       </div>
-    </section>
-  )
-}
 
-export default Hero
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent pointer-events-none" />
+    </section>
+  );
+}

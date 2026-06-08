@@ -1,26 +1,23 @@
 export default function Footer() {
   return (
-    <footer className="border-t border-white/5 py-12">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-md bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center text-sm font-black text-white">
-              A
-            </div>
-            <span className="text-sm font-semibold text-gray-400">ADE</span>
+    <footer className="border-t border-white/5 px-6 py-10">
+      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 sm:flex-row">
+        <div className="flex items-center gap-2">
+          <div className="flex h-6 w-6 items-center justify-center rounded-md bg-gradient-to-br from-neon-purple to-electric-blue">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5Z" />
+              <path d="M2 17l10 5 10-5" />
+              <path d="M2 12l10 5 10-5" />
+            </svg>
           </div>
-
-          <div className="flex items-center gap-6 text-sm text-gray-500">
-            <a href="#" className="hover:text-gray-300 transition-colors">개인정보처리방침</a>
-            <a href="#" className="hover:text-gray-300 transition-colors">이용약관</a>
-            <a href="#" className="hover:text-gray-300 transition-colors">문의하기</a>
-          </div>
-
-          <p className="text-xs text-gray-600">
-            &copy; 2026 ADE. All rights reserved.
-          </p>
+          <span className="font-geist text-sm font-semibold text-gray-400">
+            Nexus AI
+          </span>
         </div>
+        <p className="font-inter text-sm text-gray-600">
+          &copy; {new Date().getFullYear()} Nexus AI. All rights reserved.
+        </p>
       </div>
     </footer>
-  )
+  );
 }

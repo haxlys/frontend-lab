@@ -1,23 +1,251 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --font-geist: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-inter: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --color-neon-purple: #8B5CF6;
+  --color-neon-purple-glow: #A78BFA;
+  --color-electric-blue: #3B82F6;
+  --color-electric-blue-glow: #60A5FA;
+  --color-emerald: #10B981;
+  --color-emerald-glow: #34D399;
+  --color-deep-charcoal: #0B0B0F;
+  --color-glass-bg: rgba(255, 255, 255, 0.03);
+  --color-glass-border: rgba(255, 255, 255, 0.06);
+  --color-glass-hover: rgba(255, 255, 255, 0.06);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 html {
   scroll-behavior: smooth;
+  background: #000000;
+  color: #e5e7eb;
 }
 
 body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  overflow-x: hidden;
+  background: #000000;
 }
 
-.animate-on-scroll {
+#root {
+  position: relative;
+  min-height: 100vh;
+}
+
+::selection {
+  background: rgba(139, 92, 246, 0.3);
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #000;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.3);
+  border-radius: 3px;
+}
+
+/* ── Glassmorphism utilities ── */
+.glass {
+  background: rgba(11, 11, 15, 0.65);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(139, 92, 246, 0.2);
+  box-shadow:
+    0 0 30px rgba(139, 92, 246, 0.06),
+    0 0 60px rgba(59, 130, 246, 0.03);
+}
+
+/* ── Glow border on hover ── */
+.glow-border {
+  position: relative;
+  overflow: hidden;
+}
+
+.glow-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0),
+    rgba(59, 130, 246, 0),
+    rgba(16, 185, 129, 0)
+  );
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  transition: opacity 0.5s ease;
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
 }
 
-.animate-on-scroll.visible {
+.glow-border:hover::before {
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.6),
+    rgba(59, 130, 246, 0.6),
+    rgba(16, 185, 129, 0.6)
+  );
+  opacity: 1;
+}
+
+/* ── Neon gradient text ── */
+.text-neon {
+  background: linear-gradient(135deg, #8B5CF6 0%, #3B82F6 50%, #10B981 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 200%;
+  animation: neon-shift 6s ease infinite;
+}
+
+@keyframes neon-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* ── Glow button ── */
+.btn-glow {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn-glow::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    #8B5CF6,
+    #3B82F6,
+    #10B981,
+    #8B5CF6
+  );
+  background-size: 400% 400%;
+  z-index: -1;
+  animation: glow-rotate 4s linear infinite;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  filter: blur(12px);
+}
+
+.btn-glow:hover::after {
+  opacity: 0.7;
+}
+
+@keyframes glow-rotate {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ── Scroll-reveal animations ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ── Floating particles ── */
+@keyframes float {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+  33% { transform: translateY(-20px) translateX(10px); opacity: 0.6; }
+  66% { transform: translateY(10px) translateX(-10px); opacity: 0.4; }
+}
+
+.particle {
+  animation: float 8s ease-in-out infinite;
+}
+
+/* ── Hero canvas backdrop blur vignette ── */
+.hero-vignette::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 40%,
+    transparent 30%,
+    rgba(0, 0, 0, 0.4) 70%,
+    #000000 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ── Bento card inner glow ── */
+.bento-glow-inner::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 20%;
+  right: 20%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(139, 92, 246, 0.3),
+    transparent
+  );
+}
+
+/* ── Grid background pattern ── */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .particle,
+  .text-neon,
+  .btn-glow::after {
+    animation: none !important;
+  }
+  .reveal {
+    transition: opacity 0.3s ease !important;
+    transform: none !important;
+  }
+  .reveal.visible {
+    opacity: 1 !important;
+  }
 }
