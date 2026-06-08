@@ -1,0 +1,30 @@
+{
+  "provider": {
+    "commandcode": {
+      "name": "CommandCode",
+      "options": {
+        "apiKey": "user_gwZxSx6z1tisn85dWXhz9aFEwAKewvewzfaZiFkvRCewDELCgqrv46G5eAMZB2CzToKvCcEX1sQsXUZSso8QxzP",
+        "baseURL": "https://api.commandcode.ai/provider/v1"
+      },
+      "models": {
+        "deepseek/deepseek-v4-pro": {
+          "id": "deepseek/deepseek-v4-pro",
+          "name": "DeepSeek V4 Pro",
+          "limit": {
+            "context": 128000,
+            "output": 8192
+          },
+          "modalities": {
+            "input": ["text"],
+            "output": ["text"]
+          },
+          "cost": {
+            "input": 0.55,
+            "output": 1.10,
+            "cache_read": 0.11
+          }
+        }
+      }
+    }
+  }
+}
