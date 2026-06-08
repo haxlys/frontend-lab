@@ -1,0 +1,1 @@
+{"root":["./src/App.tsx","./src/main.tsx","./src/components/CTAFooter.tsx","./src/components/CursorGlow.tsx","./src/components/Features.tsx","./src/components/Hero.tsx","./src/components/Navbar.tsx","./src/components/NeuralCanvas.tsx","./src/hooks/usePointerTracker.ts","./src/hooks/useReveal.ts"],"version":"5.9.3"}

@@ -1,0 +1,191 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand palette - cyberpunk executed with intent, not slop */
+  --color-ink-0: #000000;
+  --color-ink-50: #0a0a0c;
+  --color-ink-100: #0b0b0f;
+  --color-ink-200: #111118;
+  --color-ink-300: #1a1a24;
+  --color-ink-400: #2a2a36;
+  --color-ink-500: #3a3a48;
+  --color-ink-600: #5a5a6e;
+  --color-ink-700: #8a8a9a;
+  --color-ink-800: #b6b6c2;
+  --color-ink-900: #e6e6ec;
+  --color-ink-950: #f5f5f7;
+
+  /* Locked accent: electric violet, used across the page */
+  --color-volt-300: #c4b5fd;
+  --color-volt-400: #a78bfa;
+  --color-volt-500: #8b5cf6;
+  --color-volt-600: #7c3aed;
+  --color-volt-700: #6d28d9;
+
+  /* Supporting cool blue (no third accent - color consistency lock) */
+  --color-glacier-300: #93c5fd;
+  --color-glacier-400: #60a5fa;
+  --color-glacier-500: #3b82f6;
+
+  --font-display: "Space Grotesk", "Geist", "Inter", system-ui, sans-serif;
+  --font-sans: "Inter", "Geist", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Geist Mono", ui-monospace, monospace;
+
+  --radius-card: 18px;
+  --radius-pill: 999px;
+
+  --shadow-glow-sm: 0 0 24px -8px rgba(139, 92, 246, 0.45);
+  --shadow-glow-md: 0 0 48px -12px rgba(139, 92, 246, 0.55);
+  --shadow-glow-lg: 0 0 96px -24px rgba(139, 92, 246, 0.65);
+
+  --animate-shimmer: shimmer 2.4s linear infinite;
+  --animate-pulse-slow: pulse-slow 4s ease-in-out infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-rotate-slow: rotate-slow 22s linear infinite;
+  --animate-grid-drift: grid-drift 30s linear infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 50%; }
+  100% { background-position: 200% 50%; }
+}
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 0.95; }
+}
+@keyframes float {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -6px, 0); }
+}
+@keyframes rotate-slow {
+  to { transform: rotate(360deg); }
+}
+@keyframes grid-drift {
+  to { background-position: 64px 64px; }
+}
+
+@layer base {
+  @font-face {
+    font-family: "Space Grotesk";
+    font-style: normal;
+    font-weight: 300 700;
+    font-display: swap;
+    src: local("Space Grotesk");
+  }
+
+  html {
+    color-scheme: dark;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background: var(--color-ink-100);
+    color: var(--color-ink-900);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-volt-500) 45%, transparent);
+    color: white;
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--color-volt-400);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+@utility glass {
+  background: linear-gradient(
+    135deg,
+    color-mix(in oklab, white 8%, transparent),
+    color-mix(in oklab, white 2%, transparent)
+  );
+  border: 1px solid color-mix(in oklab, white 10%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, white 14%, transparent),
+    inset 0 -1px 0 color-mix(in oklab, white 4%, transparent),
+    0 12px 40px -16px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+}
+
+@utility glass-strong {
+  background: linear-gradient(
+    135deg,
+    color-mix(in oklab, white 12%, transparent),
+    color-mix(in oklab, white 3%, transparent)
+  );
+  border: 1px solid color-mix(in oklab, white 16%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, white 22%, transparent),
+    inset 0 -1px 0 color-mix(in oklab, white 4%, transparent),
+    0 18px 60px -16px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+}
+
+@utility glow-border {
+  position: relative;
+  isolation: isolate;
+}
+.glow-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--border-angle, 0deg),
+    color-mix(in oklab, var(--color-volt-500) 80%, transparent),
+    color-mix(in oklab, var(--color-glacier-500) 60%, transparent),
+    color-mix(in oklab, var(--color-volt-500) 80%, transparent)
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+@utility text-gradient {
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    #ffffff 35%,
+    #c4b5fd 55%,
+    #93c5fd 75%,
+    #ffffff 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+@utility grid-fade {
+  -webkit-mask-image: radial-gradient(
+    ellipse 60% 50% at 50% 40%,
+    black 30%,
+    transparent 80%
+  );
+  mask-image: radial-gradient(
+    ellipse 60% 50% at 50% 40%,
+    black 30%,
+    transparent 80%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

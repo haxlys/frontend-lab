@@ -1,0 +1,1 @@
+{"root":["./src/App.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/CTAFooter.tsx","./src/components/CursorGlow.tsx","./src/components/FeatureShowcase.tsx","./src/components/Hero.tsx","./src/components/Navigation.tsx","./src/components/NeuralCanvas.tsx","./src/hooks/useScrollReveal.ts"],"version":"5.9.3"}
