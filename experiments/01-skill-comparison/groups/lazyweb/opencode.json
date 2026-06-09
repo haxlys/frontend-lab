@@ -3,7 +3,7 @@
     "commandcode": {
       "name": "CommandCode",
       "options": {
-        "apiKey": "<PII type="CONFIG_SECRET" id="245"/>",
+        "apiKey": "user_gwZxSx6z1tisn85dWXhz9aFEwAKewvewzfaZiFkvRCewDELCgqrv46G5eAMZB2CzToKvCcEX1sQsXUZSso8QxzP",
         "baseURL": "https://api.commandcode.ai/provider/v1"
       },
       "models": {
@@ -23,6 +23,18 @@
             "output": 1.10,
             "cache_read": 0.11
           }
+        },
+        "MiniMaxAI/MiniMax-M3": {
+          "id": "MiniMaxAI/MiniMax-M3",
+          "name": "MiniMax M3",
+          "limit": {
+            "context": 128000,
+            "output": 8192
+          },
+          "modalities": {
+            "input": ["text"],
+            "output": ["text"]
+          }
         }
       }
     }
@@ -32,7 +44,7 @@
       "type": "remote",
       "url": "https://www.lazyweb.com/mcp",
       "headers": {
-        "Authorization": "Bearer <PII type="CONFIG_SECRET" id="240"/>"
+        "Authorization": "Bearer ___LAZYWEB_TOKEN___"
       }
     }
   }

@@ -31,7 +31,7 @@
 
 ### 독립 변수 (Independent Variable)
 
-**Skill 종류** — 6개 그룹 (A~F)
+**Skill 종류** — 7개 그룹 (A~F, H)
 
 ### 종속 변수 (Dependent Variables)
 
@@ -48,6 +48,7 @@ Group C ── uiux ── .agents/skills/ui-ux-pro-max/SKILL.md 적용
 Group D ── DESIGN.md ── DESIGN.md만 제공 (스킬 SKILL.md 없음)
 Group E ── taste + DESIGN.md ── taste 스킬 + DESIGN.md 동시 적용
 Group F ── interfaces ── .agents/skills/make-interfaces-feel-better/SKILL.md 적용
+Group H ── lazyweb ── .agents/skills/lazyweb-skill/ 적용 + Lazyweb MCP 연동
 ```
 
 ### Group A (baseline)
@@ -232,7 +233,7 @@ ADE는 "AI 기반 Agent Development Editor"로, 개발자가 자연어로
 | 접근 방식 | `npx modern-web-guidance search "query"` CLI 기반 검색 |
 | 제외 사유 | 1) **CLI 의존성**: Docker 컨테이너에 npm 패키지 pre-install 필요. 2) **컨텍스트 폭발**: 128+ 가이드가 `<available_skills>`로 노출 시 컨텍스트 초과 위험. 3) **통제 불가**: "에이전트가 필요할 때 검색" 패턴으로 skill injection의 인과관계 측정 불가. 4) **실험 설계 위반**: CLI 검색은 프롬프트에 skill이 주입되는 구조가 아님. 5) **중복 영역**: `ui-ux-pro-max`가 accessibility, performance, forms 등 커버 |
 
-### 선정된 스킬: `make-interfaces-feel-better` (jakubkrehel)
+### 선정된 스킬 ①: `make-interfaces-feel-better` (jakubkrehel)
 
 | 항목 | 분석 |
 |---|---|
@@ -241,6 +242,17 @@ ADE는 "AI 기반 Agent Development Editor"로, 개발자가 자연어로
 | 접근 방식 | 순수 마크다운 — `.agents/skills/` 구조에 그대로 배치 가능 |
 | 차별점 | 기존 스킬(taste, uiux)이 커버하지 않는 **마이크로 폴리시** 영역 |
 | 적합성 | ✅ CLI 의존성 없음. ✅ 크기 적절. ✅ 기존 도커 이미지 변경 불필요. ✅ 독립적인 실험 변수로 기능 |
+
+### 선정된 스킬 ②: `lazyweb-skill` (aboul3ata)
+
+| 항목 | 분석 |
+|---|---|
+| 저장소 | [aboul3ata/lazyweb-skill](https://github.com/aboul3ata/lazyweb-skill) (366★) |
+| 규모 | SKILL.md 라우터 + 4개 모드 스킬 (design-research, design-improve, design-brainstorm, quick-inspiration) |
+| 접근 방식 | MCP 툴(`lazyweb_search`, `lazyweb_compare_image`, `lazyweb_find_similar`)로 실제 제품 스크린샷 DB 검색 |
+| 차별점 | 기존 스킬들이 "원칙/규칙"을 주입하는 것과 달리 **디자인 증거(design evidence)** 기반 접근 |
+| 도커 설정 | 추가 npm 패키지 불필요. MCP config만 opencode.json에 추가. 그룹 전용 opencode.json 마운트. |
+| 주의사항 | MCP 서버가 외부 호스팅(`https://www.lazyweb.com/mcp`) — 인터넷 연결 필요. run-to-run variance 존재. |
 
 ---
 
@@ -259,3 +271,6 @@ ADE는 "AI 기반 Agent Development Editor"로, 개발자가 자연어로
 - [ ] `run.sh` — baseline-t1-r1 실행 및 `npm install` 정상 동작 확인
 - [ ] 스크린샷 — agent-browser `--headed` 모드로 Apple Silicon headless Chrome 버그 해결
 - [ ] 24회 전체 실행 (약 3-4시간 소요 예상)
+- [x] Group H (`lazyweb/`) 그룹 디렉토리 생성 및 스킬 배치
+- [x] `run_group_lazyweb.sh` 실행 스크립트 생성
+- [x] Group H 전용 `opencode.json` (MCP config 포함) 생성
