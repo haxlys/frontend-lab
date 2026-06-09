@@ -1,0 +1,9 @@
+name,group,task,run,visual_appeal,layout_clarity,color_contrast,spacing_hierarchy,responsive_quality,typography,overall_professionalism
+interfaces-t1-r1,interfaces,t1,r1,3,4,4,4,3,3,3
+interfaces-t1-r2,interfaces,t1,r2,3,4,4,4,4,3,3
+interfaces-t2-r1,interfaces,t2,r1,5,4,4,5,5,4,5
+interfaces-t2-r2,interfaces,t2,r2,5,5,4,5,5,5,5
+modern-web-t1-r1,modern-web,t1,r1,3,4,3,3,3,2,3
+modern-web-t1-r2,modern-web,t1,r2,3,4,3,3,4,3,4
+modern-web-t2-r1,modern-web,t2,r1,5,4,3,4,4,4,4
+modern-web-t2-r2,modern-web,t2,r2,5,4,3,4,4,5,4
