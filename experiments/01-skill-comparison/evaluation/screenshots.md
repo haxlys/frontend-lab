@@ -1,49 +1,50 @@
-# Experiment 01 — All Screenshots (32 runs × 3 viewports = 96 images)
+螟
+ Experiment 01 髞?All Screenshots (32 runs 螟?\3 viewports = 96 images)
 
 A=Baseline, B=Taste, C=UI-UX, D=DESIGN.md, E=Combined, F=Interfaces, G=ModernWeb, I=Reference
 
 ---
 
-## Task 1 — CRM Dashboard
+## Task 1 螟?CRM Dashboard
 
 ### Desktop (1440×900)
 | # | A | B | C | D | E | F | G | I |
-|---|---|---|---|---|---|---|---|---|---|
+|---|---|---|---|---|---|---|---|---|
 | R1 | ![](../screenshots/baseline-t1-r1-desktop.png) | ![](../screenshots/taste-t1-r1-desktop.png) | ![](../screenshots/uiux-t1-r1-desktop.png) | ![](../screenshots/design-doc-t1-r1-desktop.png) | ![](../screenshots/combined-t1-r1-desktop.png) | ![](../screenshots/interfaces-t1-r1-desktop.png) | ![](../screenshots/modern-web-t1-r1-desktop.png) | ![](../screenshots/reference-t1-r1-desktop.png) |
 | R2 | ![](../screenshots/baseline-t1-r2-desktop.png) | ![](../screenshots/taste-t1-r2-desktop.png) | ![](../screenshots/uiux-t1-r2-desktop.png) | ![](../screenshots/design-doc-t1-r2-desktop.png) | ![](../screenshots/combined-t1-r2-desktop.png) | ![](../screenshots/interfaces-t1-r2-desktop.png) | ![](../screenshots/modern-web-t1-r2-desktop.png) | ![](../screenshots/reference-t1-r2-desktop.png) |
 
 ### Tablet (768×1024)
 | # | A | B | C | D | E | F | G | I |
-|---|---|---|---|---|---|---|---|---|---|
+|---|---|---|---|---|---|---|---|---|
 | R1 | ![](../screenshots/baseline-t1-r1-tablet.png) | ![](../screenshots/taste-t1-r1-tablet.png) | ![](../screenshots/uiux-t1-r1-tablet.png) | ![](../screenshots/design-doc-t1-r1-tablet.png) | ![](../screenshots/combined-t1-r1-tablet.png) | ![](../screenshots/interfaces-t1-r1-tablet.png) | ![](../screenshots/modern-web-t1-r1-tablet.png) | ![](../screenshots/reference-t1-r1-tablet.png) |
 | R2 | ![](../screenshots/baseline-t1-r2-tablet.png) | ![](../screenshots/taste-t1-r2-tablet.png) | ![](../screenshots/uiux-t1-r2-tablet.png) | ![](../screenshots/design-doc-t1-r2-tablet.png) | ![](../screenshots/combined-t1-r2-tablet.png) | ![](../screenshots/interfaces-t1-r2-tablet.png) | ![](../screenshots/modern-web-t1-r2-tablet.png) | ![](../screenshots/reference-t1-r2-tablet.png) |
 
 ### Mobile (375×667)
 | # | A | B | C | D | E | F | G | I |
-|---|---|---|---|---|---|---|---|---|---|
+|---|---|---|---|---|---|---|---|---|
 | R1 | ![](../screenshots/baseline-t1-r1-mobile.png) | ![](../screenshots/taste-t1-r1-mobile.png) | ![](../screenshots/uiux-t1-r1-mobile.png) | ![](../screenshots/design-doc-t1-r1-mobile.png) | ![](../screenshots/combined-t1-r1-mobile.png) | ![](../screenshots/interfaces-t1-r1-mobile.png) | ![](../screenshots/modern-web-t1-r1-mobile.png) | ![](../screenshots/reference-t1-r1-mobile.png) |
 | R2 | ![](../screenshots/baseline-t1-r2-mobile.png) | ![](../screenshots/taste-t1-r2-mobile.png) | ![](../screenshots/uiux-t1-r2-mobile.png) | ![](../screenshots/design-doc-t1-r2-mobile.png) | ![](../screenshots/combined-t1-r2-mobile.png) | ![](../screenshots/interfaces-t1-r2-mobile.png) | ![](../screenshots/modern-web-t1-r2-mobile.png) | ![](../screenshots/reference-t1-r2-mobile.png) |
 
 
 ---
 
-## Task 2 — AI Product Landing Page (Dark/Cyberpunk)
+## Task 2 螟?AI Product Landing Page (Dark/Cyberpunk)
 
 ### Desktop (1440×900)
 | # | A | B | C | D | E | F | G | I |
-|---|---|---|---|---|---|---|---|---|---|
+|---|---|---|---|---|---|---|---|---|
 | R1 | ![](../screenshots/baseline-t2-r1-desktop.png) | ![](../screenshots/taste-t2-r1-desktop.png) | ![](../screenshots/uiux-t2-r1-desktop.png) | ![](../screenshots/design-doc-t2-r1-desktop.png) | ![](../screenshots/combined-t2-r1-desktop.png) | ![](../screenshots/interfaces-t2-r1-desktop.png) | ![](../screenshots/modern-web-t2-r1-desktop.png) | ![](../screenshots/reference-t2-r1-desktop.png) |
 | R2 | ![](../screenshots/baseline-t2-r2-desktop.png) | ![](../screenshots/taste-t2-r2-desktop.png) | ![](../screenshots/uiux-t2-r2-desktop.png) | ![](../screenshots/design-doc-t2-r2-desktop.png) | ![](../screenshots/combined-t2-r2-desktop.png) | ![](../screenshots/interfaces-t2-r2-desktop.png) | ![](../screenshots/modern-web-t2-r2-desktop.png) | ![](../screenshots/reference-t2-r2-desktop.png) |
 
 ### Tablet (768×1024)
 | # | A | B | C | D | E | F | G | I |
-|---|---|---|---|---|---|---|---|---|---|
+|---|---|---|---|---|---|---|---|---|
 | R1 | ![](../screenshots/baseline-t2-r1-tablet.png) | ![](../screenshots/taste-t2-r1-tablet.png) | ![](../screenshots/uiux-t2-r1-tablet.png) | ![](../screenshots/design-doc-t2-r1-tablet.png) | ![](../screenshots/combined-t2-r1-tablet.png) | ![](../screenshots/interfaces-t2-r1-tablet.png) | ![](../screenshots/modern-web-t2-r1-tablet.png) | ![](../screenshots/reference-t2-r1-tablet.png) |
 | R2 | ![](../screenshots/baseline-t2-r2-tablet.png) | ![](../screenshots/taste-t2-r2-tablet.png) | ![](../screenshots/uiux-t2-r2-tablet.png) | ![](../screenshots/design-doc-t2-r2-tablet.png) | ![](../screenshots/combined-t2-r2-tablet.png) | ![](../screenshots/interfaces-t2-r2-tablet.png) | ![](../screenshots/modern-web-t2-r2-tablet.png) | ![](../screenshots/reference-t2-r2-tablet.png) |
 
 ### Mobile (375×667)
 | # | A | B | C | D | E | F | G | I |
-|---|---|---|---|---|---|---|---|---|---|
+|---|---|---|---|---|---|---|---|---|
 | R1 | ![](../screenshots/baseline-t2-r1-mobile.png) | ![](../screenshots/taste-t2-r1-mobile.png) | ![](../screenshots/uiux-t2-r1-mobile.png) | ![](../screenshots/design-doc-t2-r1-mobile.png) | ![](../screenshots/combined-t2-r1-mobile.png) | ![](../screenshots/interfaces-t2-r1-mobile.png) | ![](../screenshots/modern-web-t2-r1-mobile.png) | ![](../screenshots/reference-t2-r1-mobile.png) |
 | R2 | ![](../screenshots/baseline-t2-r2-mobile.png) | ![](../screenshots/taste-t2-r2-mobile.png) | ![](../screenshots/uiux-t2-r2-mobile.png) | ![](../screenshots/design-doc-t2-r2-mobile.png) | ![](../screenshots/combined-t2-r2-mobile.png) | ![](../screenshots/interfaces-t2-r2-mobile.png) | ![](../screenshots/modern-web-t2-r2-mobile.png) | ![](../screenshots/reference-t2-r2-mobile.png) |
 
