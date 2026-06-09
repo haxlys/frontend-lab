@@ -47,9 +47,14 @@
 ### 4.2 분석
 
 - **T2에서 압도적**: interfaces-t2-r2가 4.86으로 **Exp01 사상 공동 최고점** (MiniMax M3 uiux-t1-r1과 동률).
-- **인터페이스 패턴 적용**: T2 landing page에서 concentic border-radius, image outlines, shadows over borders, scale-on-press, text-wrap, font-smoothing 등이 잘 반영됨 (CSS에서 `-webkit-font-smoothing`, `active:scale-[0.97]`, `text-wrap: balance`, `backdrop-blur` glass 등 확인).
+- **인터페이스 패턴 코드 적용 증거**: T2 landing page에서 다음 패턴들이 실제 코드에 반영됨:
+  - `font-smoothing`: CSS에 2회 (`-webkit-font-smoothing: antialiased`, `-moz-osx-font-smoothing: grayscale`)
+  - `box-shadow` layered shadows: 2회 (borders 대신 그림자로 depth 표현)
+  - `backdrop-blur`: Hero 컴포넌트에서 glass morphism 구현
+  - `rounded-*`: concentic border-radius 패턴 (outer card와 inner button이 다른 radius)
 - **T1 약세**: CRM 대시보드에서는 3.29로 낮음. 마이크로 폴리시 패턴이 데이터 밀도 높은 대시보드보다 비주얼 중심 랜딩페이지에서 더 영향력이 큼.
-- **Tabular-nums**: 수치형 데이터에 적용되었으나 일관되지는 않음.
+- **Tabular-nums**: 수치형 데이터에 부분 적용. CSS에서는 검출되지 않아 Tailwind `tabular-nums` 유틸리티 클래스가 아닌 인라인 스타일로 적용된 것으로 추정.
+- **T1→T2 점수 차이**: 3.29→4.71 (Δ+1.42) — 모든 그룹 중 가장 큰 작업 타입 간 격차. **interfaces 스킬은 비주얼 랜딩페이지 특화.**
 
 ---
 
@@ -66,11 +71,15 @@
 
 ### 5.2 분석
 
-- **Zero Modern Web API usage**: run1~2, 1~2 모두 dialog, popover, view-transition, @starting-style, anchor-positioning, container queries, :has(), :user-valid 중 **단 하나도 사용되지 않음**. `npx modern-web-guidance search`가 호출되었으나 retrieve된 가이드가 실제 코드에 반영되지 않았음.
-- **Session log 분석**: `npx modern-web-guidance search 'CSS entry exit animation frontend react'` → 결과 반환 성공, 그러나 retrieve된 가이드 컨텍스트가 너무 커서 (1408-1950 tokens per guide) 에이전트가 이를 코드에 통합하지 못한 것으로 추정.
-- **Glassmorphism/glow**: T2에서는 glass morphism, glow border, canvas particles, cursor glow 모두 구현 — skill 없이도 모델 기본기가 충분히 표현함.
-- **색상 대비 낮음**: 모든 run에서 color_contrast가 3 — dark theme에서 secondary text의 contrast가 부족.
-- **접근성 제로**: modern-web-t2-r2에서 `aria-label="Toggle menu"` 1건 외 전무. accessible-error-announcement, aria-invalid, focus-visible 등 MWG 접근성 가이드가 전혀 반영되지 않음.
+- **Zero Modern Web API usage**: dialog, popover, view-transition, `@starting-style`, `transition-behavior: allow-discrete`, anchor-positioning, container queries, `:has()`, `:user-valid`, `prefers-reduced-motion` 중 **단 하나도 실제 코드에 사용되지 않음**.
+- **MWG skill loaded but NEVER executed**: 3/4 session log에서 `npx modern-web-guidance` 호출이 **전혀 없음**. SKILL.md의 `name: modern-web-guidance` 태그로 인해 `<available_skills>`에 등록은 되었으나, 에이전트가 이 스킬을 호출(`skill({name:"modern-web-guidance"})`)하거나 `npx modern-web-guidance search`를 실행하지 않음.
+  - `modern-web-t1-r1`: `npx`가 `npm create vite@latest crm-dashboard`의 alias로만 등장 (MWG search 아님)
+  - `modern-web-t1-r2`: session.log 없음 (Docker timeout 실패 후 재실행으로 로그 유실)
+  - `modern-web-t2-r1`, `modern-web-t2-r2`: MWG search/retrieve 호출 없음
+- **실패 원인**: SKILL.md는 "MANDATORY: Execute FIRST"라고 명시하지만, 에이전트가 `skill()` 도구로 명시적 호출을 해야 하는데 그 단계를 건너뛰고 바로 코드 생성을 시작함. `npx modern-web-guidance search`를 CLI 명령어로 인식했을지라도 별도 실행 없이 모델 자체 지식으로 코드 작성.
+- **Glassmorphism/glow**: T2에서는 glass morphism, glow border, canvas particles, cursor glow 모두 구현 — modern-web-guidance skill 없이도 DeepSeek 기본기로 충분히 구현.
+- **색상 대비 낮음**: 모든 run에서 color_contrast가 3 — dark theme에서 secondary text (`white/55`, `gray-400` 등)의 WCAG AA contrast 미달.
+- **접근성 전무**: modern-web-t2-r2에서 `aria-label="Toggle menu"` 1건 외 전무. MWG의 `accessible-error-announcement`, `aria-invalid`, focus-visible 등 접근성 가이드가 전혀 반영되지 않음.
 
 ---
 
