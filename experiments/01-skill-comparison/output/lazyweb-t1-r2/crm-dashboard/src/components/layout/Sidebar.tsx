@@ -1,8 +1,8 @@
-import { type FC, type ReactNode, useState } from "react";
+import { type FC } from "react";
 
 interface NavItem {
   label: string;
-  icon: ReactNode;
+  icon: React.ReactNode;
   active?: boolean;
 }
 
@@ -69,44 +69,73 @@ const navItems: NavItem[] = [
   },
 ];
 
-export const Sidebar: FC = () => (
-  <aside className="fixed left-0 top-0 bottom-0 w-[232px] bg-navy-800 text-white flex flex-col z-30">
-    <div className="flex items-center gap-2.5 px-5 h-[56px] border-b border-navy-700 flex-shrink-0">
-      <div className="w-7 h-7 rounded-md bg-accent-600 flex items-center justify-center">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round">
-          <path d="M12 2L2 7l10 5 10-5-10-5z" />
-          <path d="M2 17l10 5 10-5" />
-          <path d="M2 12l10 5 10-5" />
-        </svg>
-      </div>
-      <span className="font-semibold text-[15px] tracking-tight">FlowCRM</span>
-    </div>
+interface SidebarProps {
+  open: boolean;
+  onClose: () => void;
+}
 
-    <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
-      {navItems.map((item) => (
-        <a
-          key={item.label}
-          href="#"
-          className={`flex items-center gap-3 px-3 py-2.5 rounded-md text-[13px] font-medium transition-colors ${
-            item.active
-              ? "bg-accent-600/20 text-white"
-              : "text-navy-400 hover:bg-navy-700/60 hover:text-navy-200"
-          }`}
+export const Sidebar: FC<SidebarProps> = ({ open, onClose }) => (
+  <>
+    {open && (
+      <div
+        className="fixed inset-0 bg-black/30 z-30 lg:hidden"
+        onClick={onClose}
+      />
+    )}
+
+    <aside
+      className={`fixed left-0 top-0 bottom-0 w-[232px] bg-navy-800 text-white flex flex-col z-30 transition-transform duration-200 ${
+        open ? "translate-x-0" : "-translate-x-full"
+      } lg:translate-x-0`}
+    >
+      <div className="flex items-center justify-between gap-2.5 px-5 h-[56px] border-b border-navy-700 flex-shrink-0">
+        <div className="flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded-md bg-accent-600 flex items-center justify-center">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5z" />
+              <path d="M2 17l10 5 10-5" />
+              <path d="M2 12l10 5 10-5" />
+            </svg>
+          </div>
+          <span className="font-semibold text-[15px] tracking-tight">FlowCRM</span>
+        </div>
+        <button
+          className="lg:hidden text-navy-400 hover:text-white transition-colors"
+          onClick={onClose}
         >
-          <span className="flex-shrink-0">{item.icon}</span>
-          {item.label}
-        </a>
-      ))}
-    </nav>
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+            <path d="M15 5L5 15M5 5l10 10" />
+          </svg>
+        </button>
+      </div>
 
-    <div className="px-4 py-3 border-t border-navy-700 flex items-center gap-3">
-      <div className="w-8 h-8 rounded-full bg-accent-600 flex items-center justify-center text-xs font-semibold">
-        KJ
+      <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
+        {navItems.map((item) => (
+          <a
+            key={item.label}
+            href="#"
+            onClick={onClose}
+            className={`flex items-center gap-3 px-3 py-2.5 rounded-md text-[13px] font-medium transition-colors ${
+              item.active
+                ? "bg-accent-600/20 text-white"
+                : "text-navy-400 hover:bg-navy-700/60 hover:text-navy-200"
+            }`}
+          >
+            <span className="flex-shrink-0">{item.icon}</span>
+            {item.label}
+          </a>
+        ))}
+      </nav>
+
+      <div className="px-4 py-3 border-t border-navy-700 flex items-center gap-3">
+        <div className="w-8 h-8 rounded-full bg-accent-600 flex items-center justify-center text-xs font-semibold">
+          KJ
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-[13px] font-medium text-white truncate">김지원</p>
+          <p className="text-[11px] text-navy-400 truncate">관리자</p>
+        </div>
       </div>
-      <div className="flex-1 min-w-0">
-        <p className="text-[13px] font-medium text-white truncate">김지원</p>
-        <p className="text-[11px] text-navy-400 truncate">관리자</p>
-      </div>
-    </div>
-  </aside>
+    </aside>
+  </>
 );
