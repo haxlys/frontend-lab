@@ -2,25 +2,36 @@
 
 코딩 에이전트(Coding Agent)가 생성하는 프론트엔드 UI/UX 품질에 영향을 미치는 요인들을 실험하고 분석하는 연구 저장소입니다.
 
-> "에이전트에 어떤 스킬(Skill)을 주입하느냐에 따라 결과물 품질이 얼마나 달라질까?"
-
 ## 실험
 
 ### [Experiment 01: Agent Skill이 UI/UX 품질에 미치는 영향](docs/experiments/01-skill-comparison/plan.md)
 
-5개 스킬 그룹(Baseline, Taste, UI-UX Pro Max, DESIGN.md, Taste+DESIGN.md) × 2개 태스크(대시보드, 랜딩 페이지) × 2회 반복 = 총 20회 코드 생성, Docker 격리 환경에서 실행.
+5개 스킬 그룹(Baseline, Taste, UI-UX Pro Max, DESIGN.md, Taste+DESIGN.md) × 2개 태스크 × 2회 반복 = 20회 코드 생성.
 
-| Group | Overall | 주요 발견 |
-|---|---|---|
-| UI-UX Pro Max | **3.61** | 🥇 1위 — 스킬이 가장 큰 효과를 보인 그룹 |
-| Taste | **3.54** | 디자인 감각(sensibility) 보강 |
-| Baseline | **3.14** | 스킬 없이 모델 기본기만으로 생성 |
-| DESIGN.md | **3.14** | 디자인 문서 단독 주입 |
-| Taste+DESIGN.md | **3.11** | 두 스킬 조합 시 토큰 명명 충돌로 오히려 역효과 |
+| Round | Model | 1위 | Overall | 실패율 |
+|---|---|---|---|---|
+| R1 (추상 프롬프트) | DeepSeek V4 Pro | UI-UX Pro Max | 3.61 | 0% |
+| R2 (구체적 프롬프트) | DeepSeek V4 Pro | UI-UX Pro Max | 3.93 | 20% |
 
-- [전체 결과 보고서](experiments/01-skill-comparison/evaluation/summary-report.md) — 점수, 스크린샷, 가설 검증 포함
-- [블라인드 점수 CSV](experiments/01-skill-comparison/evaluation/blind_scores.csv)
-- [정량 지표 CSV](experiments/01-skill-comparison/evaluation/metrics.csv)
+- [R1 결과 보고서](experiments/01-skill-comparison/archive/20260608_220708/evaluation/summary-report.md)
+- [R2 결과 + R1 비교 보고서](experiments/01-skill-comparison/evaluation/summary-report.md)
+
+### [Experiment 02: LLM 모델이 UI/UX 품질에 미치는 영향](docs/experiments/02-model-comparison/plan.md)
+
+Exp 01과 동일 조건에서 모델만 MiniMax M3로 변경. DeepSeek V4 Pro vs MiniMax M3 비교.
+
+| Model | Overall | 실패율 | Avg Lines | 1위 |
+|---|---|---|---|---|
+| DeepSeek V4 Pro | 3.66 | 20% | 553 | UI-UX Pro Max |
+| **MiniMax M3** | **4.11** | **0%** | **1,262** | **UI-UX Pro Max** |
+
+MiniMax M3가 모든 차원에서 DeepSeek를 상회(+12%). `uiux-t1-r1`이 4.86으로 실험 사상 최고 점수.
+
+- [Cross-Model 비교 보고서](experiments/02-model-comparison/evaluation/summary-report.md)
+
+### [Experiment 03: Image Ideation — 이미지 참조가 UI/UX 코드 생성에 미치는 영향](docs/experiments/03-image-ideation/plan.md)
+
+이미지 기반 vs 텍스트 기반 vs Design Token 기반 지시 방식에 따른 UI/UX 코드 품질 차이 측정.
 
 ## 연구 문서
 
@@ -32,13 +43,20 @@
 frontend-lab/
 ├── docs/              # 연구 문서
 │   ├── research/      # 이론/배경 분석
-│   └── experiments/   # 실험 계획
+│   └── experiments/   # 실험 계획 (01, 02, 03)
 ├── experiments/       # 실험 실행 결과물
-│   └── 01-skill-comparison/
-│       ├── groups/    # 스킬 그룹 설정
-│       ├── tasks/     # 태스크 정의
-│       ├── evaluation/ # 평가 데이터 & 점수
-│       ├── screenshots/ # 60장 (20 runs × 3 viewports)
-│       └── output/    # 생성된 코드
+│   ├── 01-skill-comparison/
+│   │   ├── groups/    # 5개 스킬 그룹 설정
+│   │   ├── tasks/     # 2개 태스크 정의
+│   │   ├── evaluation/ # 평가 데이터 & 점수
+│   │   ├── screenshots/ # 120장 (2 rounds × 60)
+│   │   ├── output/    # 생성된 코드
+│   │   └── archive/   # R1 결과물 아카이브
+│   └── 02-model-comparison/
+│       ├── groups/ → ../../01-skill-comparison/groups  (symlink)
+│       ├── tasks/  → ../../01-skill-comparison/tasks   (symlink)
+│       ├── evaluation/ # 평가 데이터 & 비교 리포트
+│       ├── screenshots/ # 60장
+│       └── output/    # MiniMax M3 생성 코드
 └── .commandcode/      # 에이전트 설정
 ```
