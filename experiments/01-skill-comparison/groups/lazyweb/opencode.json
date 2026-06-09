@@ -3,7 +3,7 @@
     "commandcode": {
       "name": "CommandCode",
       "options": {
-        "apiKey": "user_gwZxSx6z1tisn85dWXhz9aFEwAKewvewzfaZiFkvRCewDELCgqrv46G5eAMZB2CzToKvCcEX1sQsXUZSso8QxzP",
+        "apiKey": "<PII type="CONFIG_SECRET" id="245"/>",
         "baseURL": "https://api.commandcode.ai/provider/v1"
       },
       "models": {
@@ -29,6 +29,7 @@
   },
   "mcp": {
     "lazyweb": {
+      "type": "remote",
       "url": "https://www.lazyweb.com/mcp",
       "headers": {
         "Authorization": "Bearer <PII type="CONFIG_SECRET" id="240"/>"
