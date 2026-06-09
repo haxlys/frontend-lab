@@ -1,26 +1,41 @@
-import { ReactNode } from 'react'
-import { useScrollReveal } from '@/hooks/useScrollReveal'
+import { useEffect, useRef, useState } from 'react';
 
-interface ScrollRevealProps {
-  children: ReactNode
-  className?: string
-  delay?: number
-}
+export default function ScrollReveal({
+  children,
+  className = '',
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
 
-export default function ScrollReveal({ children, className = '', delay = 0 }: ScrollRevealProps) {
-  const { ref, isVisible } = useScrollReveal()
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.unobserve(node);
+        }
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <div
       ref={ref}
-      className={className}
-      style={{
-        opacity: isVisible ? 1 : 0,
-        transform: isVisible ? 'translateY(0)' : 'translateY(40px)',
-        transition: `opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`,
-      }}
+      className={`scroll-reveal ${visible ? 'visible' : ''} ${delay > 0 ? `scroll-reveal-delay-${delay}` : ''} ${className}`}
     >
       {children}
     </div>
-  )
+  );
 }

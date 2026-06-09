@@ -1,0 +1,173 @@
+export const TAGS = [
+  "All",
+  "Architecture",
+  "Character Design",
+  "Landscape",
+  "Abstract",
+  "Typography",
+  "3D Render",
+  "Cyberpunk",
+  "Minimalist",
+  "Photo Realistic",
+  "Concept Art",
+  "UI Design",
+];
+
+export interface ImageItem {
+  id: string;
+  src: string;
+  alt: string;
+  tags: string[];
+  width: number;
+  height: number;
+  prompt: string;
+}
+
+const GALLERY_ITEMS: ImageItem[] = [
+  {
+    id: "1",
+    src: "https://picsum.photos/seed/ai1/600/800",
+    alt: "Futuristic architecture concept",
+    tags: ["Architecture", "Cyberpunk"],
+    width: 600,
+    height: 800,
+    prompt: "Futuristic bioluminescent cityscape, neon reflections, volumetric fog",
+  },
+  {
+    id: "2",
+    src: "https://picsum.photos/seed/ai2/600/600",
+    alt: "Abstract geometric composition",
+    tags: ["Abstract", "Minimalist"],
+    width: 600,
+    height: 600,
+    prompt: "Geometric minimalism, soft gradients, iridescent surfaces",
+  },
+  {
+    id: "3",
+    src: "https://picsum.photos/seed/ai3/600/900",
+    alt: "Fantasy character portrait",
+    tags: ["Character Design", "Concept Art"],
+    width: 600,
+    height: 900,
+    prompt: "Ethereal warrior with crystalline armor, dramatic lighting",
+  },
+  {
+    id: "4",
+    src: "https://picsum.photos/seed/ai4/600/600",
+    alt: "Typography poster design",
+    tags: ["Typography", "UI Design"],
+    width: 600,
+    height: 600,
+    prompt: "Bold experimental typography, dynamic layout, neon accents",
+  },
+  {
+    id: "5",
+    src: "https://picsum.photos/seed/ai5/600/700",
+    alt: "Mountain landscape",
+    tags: ["Landscape", "Photo Realistic"],
+    width: 600,
+    height: 700,
+    prompt: "Cinematic mountain vista at golden hour, photorealistic 8k",
+  },
+  {
+    id: "6",
+    src: "https://picsum.photos/seed/ai6/600/600",
+    alt: "3D product visualization",
+    tags: ["3D Render", "Minimalist"],
+    width: 600,
+    height: 600,
+    prompt: "Minimalist product render, soft studio lighting, clay material",
+  },
+  {
+    id: "7",
+    src: "https://picsum.photos/seed/ai7/600/800",
+    alt: "Cyberpunk street scene",
+    tags: ["Cyberpunk", "3D Render"],
+    width: 600,
+    height: 800,
+    prompt: "Rain-soaked neon streets of Neo Tokyo, cyberpunk aesthetic",
+  },
+  {
+    id: "8",
+    src: "https://picsum.photos/seed/ai8/600/600",
+    alt: "Abstract fluid art",
+    tags: ["Abstract", "Typography"],
+    width: 600,
+    height: 600,
+    prompt: "Fluid art with metallic inks, macro photography detail",
+  },
+  {
+    id: "9",
+    src: "https://picsum.photos/seed/ai9/600/700",
+    alt: "Character illustration",
+    tags: ["Character Design", "Concept Art"],
+    width: 600,
+    height: 700,
+    prompt: "Whimsical forest spirit character sheet, hand-drawn style",
+  },
+  {
+    id: "10",
+    src: "https://picsum.photos/seed/ai10/600/900",
+    alt: "Architectural interior",
+    tags: ["Architecture", "Photo Realistic"],
+    width: 600,
+    height: 900,
+    prompt: "Modern minimalist interior with dramatic natural lighting",
+  },
+  {
+    id: "11",
+    src: "https://picsum.photos/seed/ai11/600/600",
+    alt: "UI design mockup",
+    tags: ["UI Design", "Typography"],
+    width: 600,
+    height: 600,
+    prompt: "Dark-mode SaaS dashboard, glassmorphism cards, data visualization",
+  },
+  {
+    id: "12",
+    src: "https://picsum.photos/seed/ai12/600/800",
+    alt: "Surreal landscape",
+    tags: ["Landscape", "Abstract"],
+    width: 600,
+    height: 800,
+    prompt: "Surreal floating islands above cloudy skies, dreamlike atmosphere",
+  },
+  {
+    id: "13",
+    src: "https://picsum.photos/seed/ai13/600/600",
+    alt: "3D abstract sculpture",
+    tags: ["3D Render", "Abstract"],
+    width: 600,
+    height: 600,
+    prompt: "Abstract chrome sculpture with organic flowing forms",
+  },
+  {
+    id: "14",
+    src: "https://picsum.photos/seed/ai14/600/700",
+    alt: "Anime character design",
+    tags: ["Character Design", "Cyberpunk"],
+    width: 600,
+    height: 700,
+    prompt: "Cyberpunk samurai character, anime style, dynamic pose",
+  },
+  {
+    id: "15",
+    src: "https://picsum.photos/seed/ai15/600/600",
+    alt: "Minimalist poster",
+    tags: ["Minimalist", "Typography"],
+    width: 600,
+    height: 600,
+    prompt: "Swiss design poster, clean typographic hierarchy, monochrome",
+  },
+  {
+    id: "16",
+    src: "https://picsum.photos/seed/ai16/600/900",
+    alt: "Concept environment art",
+    tags: ["Concept Art", "Landscape"],
+    width: 600,
+    height: 900,
+    prompt: "Ancient temple ruins overgrown with bioluminescent flora",
+  },
+];
+
+export default GALLERY_ITEMS;
