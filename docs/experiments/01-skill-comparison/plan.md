@@ -31,7 +31,7 @@
 
 ### 독립 변수 (Independent Variable)
 
-**Skill 종류** — 7개 그룹 (A~F, H)
+**Skill 종류** — 8개 그룹 (A~F, H, I). Group I은 스킬이 아닌 **프롬프트 레퍼런스** 변수.
 
 ### 종속 변수 (Dependent Variables)
 
@@ -49,6 +49,7 @@ Group D ── DESIGN.md ── DESIGN.md만 제공 (스킬 SKILL.md 없음)
 Group E ── taste + DESIGN.md ── taste 스킬 + DESIGN.md 동시 적용
 Group F ── interfaces ── .agents/skills/make-interfaces-feel-better/SKILL.md 적용
 Group H ── lazyweb ── .agents/skills/lazyweb-skill/ 적용 + Lazyweb MCP 연동
+Group I ── reference ── 스킬 없음. 프롬프트에 레퍼런스 사이트(ideogram.ai) URL 포함
 ```
 
 ### Group A (baseline)
@@ -97,6 +98,26 @@ Group H ── lazyweb ── .agents/skills/lazyweb-skill/ 적용 + Lazyweb MCP
 **원본**: [jakubkrehel/make-interfaces-feel-better](https://github.com/jakubkrehel/make-interfaces-feel-better) (956★)
 **핵심**: 16가지 디자인 엔지니어링 원칙 — Concentric border radius, optical alignment, shadows over borders, interruptible animations, split-and-stagger enter, subtle exit, contextual icon animations, font smoothing, tabular numbers, text wrapping, image outlines, scale on press, minimum hit area 등. 5개 파일 (SKILL.md + typography/surfaces/animations/performance.md).
 **기대**: 마이크로 인터랙션 및 폴리시(polish) 측면에서 다른 그룹 대비 우수.
+
+### Group I (reference)
+
+**적용**: 스킬 없음. 바닐라 baseline과 동일한 Docker isolation 단독. 대신 **Task 2 프롬프트에 레퍼런스 사이트 URL을 추가**하여 "이 사이트의 디자인 느낌을 참고해서 구현하라"고 지시.
+**레퍼런스**: [ideogram.ai](https://ideogram.ai) — AI 이미지 생성 SaaS. 미니멀 다크 테마, 그리드 기반 이미지 갤러리, 키워드 태그 네비게이션, 플로팅 검색창.
+**변수 유형**: 스킬 아님. **프롬프트에 포함된 외부 레퍼런스**가 코드 생성에 미치는 영향 측정.
+**비교 대상**: Baseline(A) — 동일 조건(스킬 없음)에서 프롬프트 내용만 다름. 프롬프트 내 URL 한 줄이 어느 정도의 디자인 지시 효과를 내는지 측정.
+**기대**: Baseline보다 시각적 완성도가 높을 것 (구체적인 레퍼런스가 디자인 방향성 제공). 그러나 스킬 그룹(uiux, interfaces)보다는 낮을 것 (URL만으로는 구현 디테일까지 전달되지 않음).
+**Task 2 프롬프트 (Group I 전용)**:
+```
+React + Vite + Tailwind CSS로 AI 에이전트 개발 에디터(ADE) 제품 소개 원페이지를 만들어줘.
+
+디자인 레퍼런스: https://ideogram.ai 의 느낌을 살려서 구현해줘.
+
+조건:
+- TypeScript 사용
+- 적절한 컴포넌트 분리
+- 반응형 (모바일/태블릿/데스크톱)
+- Tailwind CSS만 사용
+```
 
 ---
 
@@ -186,8 +207,9 @@ ADE는 "AI 기반 Agent Development Editor"로, 개발자가 자연어로
 | D (design-doc) | ✅ | ✅ | ✅ | ✅ |
 | E (combined) | ✅ | ✅ | ✅ | ✅ |
 | F (interfaces) | ✅ | ✅ | ✅ | ✅ |
+| I (reference) | ✅ | ✅ | ✅ | ✅ |
 
-총 **24회 생성**
+총 **28회 생성** (Group H lazyweb은 MCP 연동 필요로 별도 실행)
 
 ---
 
@@ -201,6 +223,8 @@ ADE는 "AI 기반 Agent Development Editor"로, 개발자가 자연어로
 | H4 | DeepSeek V4 Pro는 유료 모델로, 무료 모델 대비 스킬 효과가 더 두드러짐 |
 | H5 | interfaces(F)는 마이크로 인터랙션/폴리시 평가 차원에서 다른 그룹 대비 높은 점수. 그러나 전체적인 디자인 시스템 적용 측면에서는 uiux(C)와 combined(E)에 미치지 못함 |
 | H6 | interfaces(F)는 접근성 측면에서 hit area 40×40px, tabular-nums, font-smoothing 등 간접적 기여만 하므로 uiux(C)의 명시적 a11y 규칙보다 낮은 점수 |
+| H7 (NEW) | reference(I)는 Baseline(A)보다 시각적 완성도가 높지만, 스킬 그룹(uiux, interfaces)보다는 낮을 것 — URL 하나로는 구현 디테일까지 전달되지 않음 |
+| H8 (NEW) | reference(I)의 T2 점수는 특히 상승할 것 — ideogram.ai가 다크 테마 이미지 갤러리로 T2의 사이버펑크/글래스모피즘 랜딩페이지와 시각적 유사성이 높음 |
 
 ### 예상 점수
 
@@ -212,6 +236,7 @@ ADE는 "AI 기반 Agent Development Editor"로, 개발자가 자연어로
 | D (DESIGN.md) | ★★★☆ | ★★★ | ★★★ | ★★★ |
 | E (combined) | ★★★★★ | ★★★★ | ★★★★ | ★★★★ |
 | F (interfaces) | ★★★★ | ★★★☆ | ★★★ | ★★★☆ |
+| I (reference) | ★★★☆ | ★★★ | ★★★ | ★★☆ |
 | H (lazyweb) | ★★★★☆ | ★★★★ | ★★★★ | ★★★★ |
 
 ---

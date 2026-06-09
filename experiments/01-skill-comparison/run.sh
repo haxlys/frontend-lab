@@ -51,7 +51,11 @@ run_experiment() {
     return 1
   fi
 
-  TASK_PROMPT=$(cat "$task_file")
+  if [ "$group" = "reference" ] && [ "$task" = "task2" ]; then
+    TASK_PROMPT=$(cat "$TASKS_DIR/task2-reference.md")
+  else
+    TASK_PROMPT=$(cat "$task_file")
+  fi
 
   docker run --rm \
     -v "$run_dir:/project" \

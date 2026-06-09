@@ -29,7 +29,11 @@ for task in $tasks; do
     rm -rf "$run_dir"
     cp -a "$GROUPS_DIR/$group" "$run_dir"
 
-    TASK_PROMPT=$(cat "$TASKS_DIR/$task.md")
+    if [ "$group" = "reference" ] && [ "$task" = "task2" ]; then
+      TASK_PROMPT=$(cat "$TASKS_DIR/task2-reference.md")
+    else
+      TASK_PROMPT=$(cat "$TASKS_DIR/$task.md")
+    fi
     TMPLOG=$(mktemp)
     docker run --rm \
       -v "$run_dir:/project" \
