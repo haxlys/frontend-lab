@@ -14,14 +14,14 @@
 | **Agent** | OpenCode |
 | **Model** | `commandcode/deepseek/deepseek-v4-pro` |
 | **Framework** | React + Vite + Tailwind CSS |
-| **실행 환경** | Docker Container (`opencode-experiment:latest` = node:22 + opencode + git + CommandCode provider config) — 호스트와 완전 격리 |
+| **실행 환경** | Docker Container — A~F는 `opencode-experiment:latest` (node:22 + opencode + git), G는 `opencode-experiment-mwg` (node:22 + opencode + git + modern-web-guidance npm) — 호스트와 완전 격리 |
 | **스킬 포맷** | `.agents/skills/<name>/SKILL.md` |
 | **스킬 차단** | Docker isolation (호스트 전역 스킬 완전 차단) |
 | **실행 모드** | Docker isolation + provider config 마운트 (모델은 CLI `-m` 플래그로 지정) |
 
 ### 독립 변수 (Independent Variable)
 
-**Skill 종류** — 6개 그룹 (A~F)
+**Skill 종류** — 7개 그룹 (A~G)
 
 ### 종속 변수 (Dependent Variables)
 
@@ -212,7 +212,8 @@ Group B ── taste ── .agents/skills/taste-skill/SKILL.md 적용
 Group C ── uiux ── .agents/skills/ui-ux-pro-max/SKILL.md 적용
 Group D ── DESIGN.md ── DESIGN.md만 제공 (스킬 SKILL.md 없음)
 Group E ── taste + DESIGN.md ── taste 스킬 + DESIGN.md 동시 적용
-Group F ── interfaces ── .agents/skills/make-interfaces-feel-better/SKILL.md 적용
+Group F ── interfaces ── .agents/skills/make-interfaces-feel-better/ 적용 (SKILL.md + 서브파일 4개)
+Group G ── modern-web ── .agents/skills/modern-web-guidance/ 적용 (SKILL.md + 137개 guides), MWG 전용 Docker 이미지 사용
 ```
 
 ### Group A (baseline)
@@ -258,16 +259,25 @@ Group F ── interfaces ── .agents/skills/make-interfaces-feel-better/SKIL
 
 ### Group F (interfaces)
 
-**적용**: `.agents/skills/make-interfaces-feel-better/SKILL.md`
+**적용**: `.agents/skills/make-interfaces-feel-better/` (SKILL.md + 4개 서브파일)
 **원본**: [jakubkrehel/make-interfaces-feel-better](https://github.com/jakubkrehel/make-interfaces-feel-better) (956★)
 **핵심**: 16가지 디자인 엔지니어링 원칙 — Concentric border radius, optical alignment, shadows over borders, interruptible animations, split-and-stagger enter, subtle exit, contextual icon animations, font smoothing, tabular numbers, text wrapping, image outlines, scale on press, minimum hit area 등. 5개 파일 (SKILL.md + typography/surfaces/animations/performance.md).
 **기대**: 마이크로 인터랙션 및 폴리시(polish) 측면에서 다른 그룹 대비 우수. tabular-nums, font-smoothing, concentric border-radius 등 세부 디테일 반영.
+
+### Group G (modern-web)
+
+**적용**: `.agents/skills/modern-web-guidance/` (SKILL.md + guides/ 137개 파일)
+**원본**: [GoogleChrome/modern-web-guidance](https://github.com/GoogleChrome/modern-web-guidance) (1.3k★, `skills/modern-web-guidance/` 경로)
+**핵심**: 137가지 Modern Web Platform 가이드 — CSS `@starting-style`, `transition-behavior: allow-discrete`, View Transitions, Container Queries, Popover API, `:user-valid`, Anchor Positioning, Scroll-driven Animations 등. SKILL.md는 `npx modern-web-guidance search/retrieve` CLI 사용을 지시.
+**도커 이미지**: `opencode-experiment-mwg` (`Dockerfile.mwg` — npm 글로벌 `modern-web-guidance` 설치 포함)
+**실행 스크립트**: `run_group_mwg.sh` (DOCKER_IMAGE="opencode-experiment-mwg")
+**기대**: Modern Web API (dialog, popover, view-transition, anchor-positioning 등) 네이티브 활용. Fallback/accessibility guidance 반영. 단, search→retrieve 패턴으로 인해 적용되는 가이드가 run마다 달라질 수 있음 (비결정성).
 
 ---
 
 ## 5. Task (실험 태스크)
 
-**2개 태스크 × 그룹당 2회** = 그룹당 4회 생성
+**2개 태스크 × 그룹당 2회** = 그룹당 4회 생성 (Group A~E: 태스크는 R2 CRM 대시보드 + AI 랜딩페이지 프롬프트 사용)
 
 ### Task 1: SaaS 대시보드 개요 페이지
 
@@ -322,12 +332,15 @@ ADE는 "AI 기반 Agent Development Editor"로, 개발자가 자연어로
 ```bash
 # 실험 디렉토리 구조 확인
 ls experiments/01-skill-comparison/
-# groups/{baseline,taste,uiux,design-doc,combined}
+# groups/{baseline,taste,uiux,design-doc,combined,interfaces,modern-web}
 # tasks/{task1*,task2*}
 # output/
 
-# Docker 이미지 빌드 (Dockerfile → opencode-experiment:latest)
+# Docker 이미지 빌드
+# Group A~F: 기존 이미지
 docker build -t opencode-experiment:latest .
+# Group G: MWG 전용 이미지 (modern-web-guidance npm 패키지 포함)
+docker build -t opencode-experiment-mwg -f Dockerfile.mwg .
 ```
 
 ### Step 1: Docker 실행 (그룹별)
@@ -336,14 +349,16 @@ docker build -t opencode-experiment:latest .
 (Docker 볼륨 마운트만 하면 즉시 실행 가능)
 
 ```bash
-# Group A: Baseline
-# Docker 볼륨 마운트 + 실행
-docker run --rm \
-  -v "$(pwd)/groups/baseline:/project" \
-  -w /project \
-  opencode-experiment:latest \
-  run -m opencode/deepseek-v4-flash-free \
-  "task prompt..."
+# Group A~F: opencode-experiment:latest 이미지 사용
+bash run_group.sh baseline
+bash run_group.sh taste
+bash run_group.sh uiux
+bash run_group.sh design-doc
+bash run_group.sh combined
+bash run_group.sh interfaces
+
+# Group G: opencode-experiment-mwg 이미지 사용 (modern-web-guidance npm 필요)
+bash run_group_mwg.sh modern-web
 ```
 
 ### Step 2: 스킬 구조 (미리 배치됨)
@@ -355,7 +370,8 @@ groups/
 ├── uiux/             # .agents/skills/ui-ux-pro-max/SKILL.md
 ├── design-doc/       # DESIGN.md
 ├── combined/         # .agents/skills/taste-skill/SKILL.md + DESIGN.md
-└── interfaces/       # .agents/skills/make-interfaces-feel-better/SKILL.md
+├── interfaces/       # .agents/skills/make-interfaces-feel-better/ (SKILL.md + 4개 서브파일)
+└── modern-web/       # .agents/skills/modern-web-guidance/ (SKILL.md + 137개 guides)
 ```
 
 ### Step 3: 생성 실행 (run.sh)
@@ -390,8 +406,9 @@ ls output/
 | D (design-doc) | ✅ | ✅ | ✅ | ✅ |
 | E (combined) | ✅ | ✅ | ✅ | ✅ |
 | F (interfaces) | ✅ | ✅ | ✅ | ✅ |
+| G (modern-web) | ✅ | ✅ | ✅ | ✅ |
 
-총 **24회 생성**
+총 **28회 생성** (A~E 20 + F 4 + G 4)
 
 ### Step 5: 스크린샷 캡처 (agent-browser 사용)
 
@@ -418,7 +435,7 @@ kill %1
 bash run.sh --screenshots
 ```
 
-**캡처 매트릭스**: 20회 생성 × 3 뷰포트 = **60장 스크린샷**, 모두 `screenshots/` 디렉토리에 저장.
+**캡처 매트릭스**: 28회 생성 × 3 뷰포트 = **84장 스크린샷**, 모두 `screenshots/` 디렉토리에 저장.
 
 ---
 
@@ -458,13 +475,16 @@ bash run.sh --screenshots
 | D (DESIGN.md) | ★★★☆ | ★★★ | ★★★ | ★★★ |
 | E (combined) | ★★★★★ | ★★★★ | ★★★★ | ★★★★ |
 | F (interfaces) | ★★★★ | ★★★☆ | ★★★ | ★★★☆ |
+| G (modern-web) | ★★★★☆ | ★★★★ | ★★★★ | ★★★★★ |
 
 **가설 1**: baseline(A)이 가장 낮은 점수.
 **가설 2**: combined(E)이 가장 높은 점수.
 **가설 3**: DESIGN.md 단독(D)보다 taste(B)가 시각적으로 더 나은 결과.
 **가설 4**: `commandcode/deepseek/deepseek-v4-pro`는 유료 모델로, 무료 모델(`opencode/deepseek-v4-flash-free`) 대비 스킬 효과가 더 두드러질 수 있음.
-**가설 5 (NEW)**: interfaces(F)는 마이크로 인터랙션/폴리시 평가 차원에서 다른 그룹 대비 높은 점수. 그러나 전체적인 디자인 시스템 적용 측면에서는 uiux(C)와 combined(E)에 미치지 못할 것.
-**가설 6 (NEW)**: interfaces(F)는 접근성 측면에서 hit area 40×40px, tabular-nums, font-smoothing 등 간접적 기여만 하므로 uiux(C)의 명시적 a11y 규칙보다 낮은 점수.
+**가설 5**: interfaces(F)는 마이크로 인터랙션/폴리시 평가 차원에서 다른 그룹 대비 높은 점수. 그러나 전체적인 디자인 시스템 적용 측면에서는 uiux(C)와 combined(E)에 미치지 못할 것.
+**가설 6**: interfaces(F)는 접근성 측면에서 hit area 40×40px, tabular-nums, font-smoothing 등 간접적 기여만 하므로 uiux(C)의 명시적 a11y 규칙보다 낮은 점수.
+**가설 7 (NEW)**: modern-web(G)는 접근성 차원에서 가장 높은 점수 (accessible-error-announcement, prefers-reduced-motion, dialog/popover keyboard handling 등 기본 내장). 그러나 search→retrieve 패턴으로 인해 run-to-run variance가 다른 그룹보다 클 것.
+**가설 8 (NEW)**: modern-web(G)의 Modern Web API 활용도 (dialog, popover, view-transition, @starting-style 등)는 다른 모든 그룹을 압도할 것.
 
 ---
 
@@ -473,7 +493,11 @@ bash run.sh --screenshots
 ```
 experiments/01-skill-comparison/
 ├── plan.md                          # 실험 계획 문서
-├── run.sh                           # Docker 실행 스크립트
+├── run.sh                           # Docker 실행 스크립트 (A~F)
+├── run_group.sh                     # 그룹별 실행 스크립트 (A~F)
+├── run_group_mwg.sh                 # MWG 전용 실행 스크립트 (G)
+├── Dockerfile                       # 기본 이미지 (A~F)
+├── Dockerfile.mwg                   # MWG 이미지 (G: modern-web-guidance npm 포함)
 ├── groups/
 │   ├── baseline/                    # Group A (스킬 없음, 빈 디렉토리)
 │   ├── taste/                       # Group B (taste 스킬)
@@ -485,8 +509,17 @@ experiments/01-skill-comparison/
 │   ├── combined/                    # Group E (taste + DESIGN.md)
 │   │   ├── .agents/skills/taste-skill/SKILL.md
 │   │   └── DESIGN.md
-│   └── interfaces/                  # Group F (make-interfaces-feel-better 스킬)
-│       └── .agents/skills/make-interfaces-feel-better/SKILL.md
+│   ├── interfaces/                  # Group F (make-interfaces-feel-better)
+│   │   └── .agents/skills/make-interfaces-feel-better/
+│   │       ├── SKILL.md
+│   │       ├── animations.md
+│   │       ├── performance.md
+│   │       ├── surfaces.md
+│   │       └── typography.md
+│   └── modern-web/                  # Group G (modern-web-guidance)
+│       └── .agents/skills/modern-web-guidance/
+│           ├── SKILL.md
+│           └── guides/ (137개 .md 파일)
 ├── tasks/
 │   ├── task1.md
 │   └── task2.md
@@ -513,24 +546,26 @@ experiments/01-skill-comparison/
 
 ## 10. 추가 스킬 후보 분석
 
-### 고려되었으나 제외된 스킬: `modern-web-guidance` (GoogleChrome)
-
-| 항목 | 분석 |
-|---|---|
-| 저장소 | [GoogleChrome/modern-web-guidance](https://github.com/GoogleChrome/modern-web-guidance) (1.3k★) |
-| 규모 | SKILL.md + 128+ 가이드 파일 (guides/ 하위), 총 500KB+ |
-| 접근 방식 | `npx modern-web-guidance search "query"` CLI 기반 검색 |
-| 제외 사유 | 1) **CLI 의존성**: Docker 컨테이너에 npm 패키지 pre-install 필요 → `Dockerfile` 수정 및 네트워크 의존성 추가. 2) **컨텍스트 폭발**: 128+ 가이드가 `<available_skills>`로 노출 시 컨텍스트 초과 위험. 3) **통제 불가**: "에이전트가 필요할 때 검색" 패턴으로 skill injection의 인과관계 측정 불가. 4) **실험 설계 위반**: CLI 검색은 프롬프트에 skill이 주입되는 구조가 아님. 5) **중복 영역**: `ui-ux-pro-max`가 이미 accessibility, performance, forms 등 현대적 웹 표준을 대부분 커버. |
-
-### 선정된 스킬: `make-interfaces-feel-better` (jakubkrehel)
+### 선정된 스킬 ①: `make-interfaces-feel-better` (jakubkrehel) → Group F
 
 | 항목 | 분석 |
 |---|---|
 | 저장소 | [jakubkrehel/make-interfaces-feel-better](https://github.com/jakubkrehel/make-interfaces-feel-better) (956★) |
 | 규모 | SKILL.md + 4개 서브파일 (typography/surfaces/animations/performance.md), 총 ~15KB |
-| 접근 방식 | 순수 마크다운 설명 — `.agents/skills/` 구조에 그대로 배치 가능 |
-| 차별점 | 기존 스킬(taste, uiux)이 커버하지 않는 **마이크로 폴리시** 영역: tabular-nums, font-smoothing, concentric border-radius, scale(0.96) on press, optical alignment, minimum 40×40px hit area, image outlines 등 |
-| 적합성 | ✅ CLI 의존성 없음. ✅ 크기 적절. ✅ 기존 도커 이미지 변경 불필요. ✅ 독립적인 실험 변수로 기능. |
+| 접근 방식 | 순수 마크다운 설명 — `.agents/skills/` 구조에 그대로 배치 |
+| 차별점 | 기존 스킬(taste, uiux)이 커버하지 않는 **마이크로 폴리시** 영역 |
+| 적합성 | ✅ CLI 의존성 없음. ✅ 크기 적절. ✅ 기존 도커 이미지 변경 불필요. |
+
+### 선정된 스킬 ②: `modern-web-guidance` (GoogleChrome) → Group G
+
+| 항목 | 분석 |
+|---|---|
+| 저장소 | [GoogleChrome/modern-web-guidance](https://github.com/GoogleChrome/modern-web-guidance) (1.3k★) |
+| 규모 | SKILL.md + 137개 가이드 파일 (guides/ 하위), 총 1.2MB |
+| 접근 방식 | `npx modern-web-guidance search "query"` → `retrieve "<id>"` CLI 기반 |
+| 도커 설정 | `Dockerfile.mwg` — `npm install -g modern-web-guidance@latest` 포함 |
+| 실행 스크립트 | `run_group_mwg.sh` — `DOCKER_IMAGE="opencode-experiment-mwg"` |
+| 주의사항 | search→retrieve 패턴으로 인해 **적용되는 가이드가 run마다 다를 수 있음** (비결정성). 전체 137개 가이드를 전부 컨텍스트에 주입하지 않고 에이전트가 선택적으로 retrieve. |
 
 ---
 
@@ -539,13 +574,13 @@ experiments/01-skill-comparison/
 - [x] `opencode/deepseek-v4-flash-free` 모델 정상 동작 확인
 - [x] Docker isolation 검증 완료 (호스트 `~/.agents/skills/` 10개 스킬 완전 차단)
 - [x] Docker 내 `opencode run` + 모델 호출 정상 동작 확인
-- [x] taste-skill v2 분석 완료 — 원본 (87KB) 그대로 사용
+- [x] taste-skill v2 분석 완료 — 원본 `skills/taste-skill/SKILL.md` (87KB) 그대로 사용
 - [x] ui-ux-pro-max 분석 완료 — 원본 `.claude/skills/ui-ux-pro-max/SKILL.md` (44KB) 그대로 사용
-- [x] make-interfaces-feel-better 분석 완료 — 원본 (SKILL.md + 4개 서브파일) 그대로 사용
-- [x] `modern-web-guidance` 분석 완료 — 제외 결정 (CLI 의존성, 컨텍스트 폭발, 통제 불가)
-- [x] 5개 기존 그룹 디렉토리 구조 완료
-- [ ] Group F (`interfaces/`) 그룹 디렉토리 생성 및 스킬 배치
-- [ ] `run.sh` — `groups` 리스트에 `interfaces` 추가
-- [ ] `run.sh` — baseline-t1-r1 실행 및 `npm install` 정상 동작 확인
-- [ ] 스크린샷 — agent-browser `--headed` 모드로 Apple Silicon headless Chrome 버그 해결
-- [ ] 24회 전체 실행 (약 3-4시간 소요 예상)
+- [x] make-interfaces-feel-better 분석 완료 — 원본 `skills/make-interfaces-feel-better/` (SKILL.md + 4개 서브파일) 그대로 사용
+- [x] modern-web-guidance 분석 완료 — 원본 `skills/modern-web-guidance/` (SKILL.md + 137개 guides). Dockerfile.mwg + run_group_mwg.sh 생성 완료
+- [x] 7개 그룹 디렉토리 구조 완료 (baseline, taste, uiux, design-doc, combined, interfaces, modern-web)
+- [ ] `Dockerfile.mwg` 이미지 빌드 (`docker build -t opencode-experiment-mwg -f Dockerfile.mwg .`)
+- [ ] `run.sh` — `groups` 리스트에 `interfaces` 및 `modern-web` 추가
+- [ ] `run_group_mwg.sh` — modern-web 그룹 정상 작동 검증 (Docker 내 `npx modern-web-guidance search` 확인)
+- [ ] baseline-t1-r1 실행 및 `npm install` 정상 동작 확인
+- [ ] 28회 전체 실행 (약 4-5시간 소요 예상)

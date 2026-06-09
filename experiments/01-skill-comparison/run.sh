@@ -18,7 +18,7 @@ MODEL="commandcode/deepseek/deepseek-v4-pro"
 
 RUN_COUNT=2
 
-groups="baseline taste uiux design-doc combined"
+groups="baseline taste uiux design-doc combined interfaces"
 tasks="task1 task2"
 
 usage() {
