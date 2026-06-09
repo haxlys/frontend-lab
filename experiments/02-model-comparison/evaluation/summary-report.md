@@ -141,7 +141,84 @@ Worst Group:        Taste (3.32)       Baseline (3.86)
 
 ---
 
-## 8. Recommendations
+## 8. Skill Invocation Analysis
+
+> Extracted from session.log via `scripts/extract_skill_metrics.py`
+
+### 8.1 Overview
+
+| Metric | Value |
+|---|---|
+| Total runs | 20 |
+| Skill invoked | 8/20 (40%) |
+| Skill NOT invoked | 12/20 (60%) |
+
+### 8.2 Invocation by Group
+
+| Group | Invoked / Total | Rate | Skills Used |
+|---|---|---|---|
+| baseline | 0/4 | 0% | N/A (no skill available) |
+| combined | 3/4 | **75%** | design-taste-frontend |
+| design-doc | 0/4 | **0%** | N/A |
+| taste | 3/4 | **75%** | design-taste-frontend |
+| uiux | 2/4 | 50% | ui-ux-pro-max |
+
+### 8.3 Score Comparison: Skill Invoked vs Not Invoked
+
+| Dimension | Invoked | Not Invoked | Delta |
+|---|---|---|---|
+| Visual Appeal | 4.50 | 4.17 | +0.33 |
+| Layout Clarity | 4.38 | 4.33 | +0.04 |
+| Color Contrast | 3.62 | 3.50 | +0.12 |
+| Spacing Hierarchy | 4.38 | 4.25 | +0.12 |
+| Responsive Quality | 3.88 | 4.00 | -0.12 |
+| Typography | 4.12 | 4.25 | -0.12 |
+| Overall Professionalism | 4.50 | 3.92 | **+0.58** |
+
+### 8.4 Task-Driven Invocation: MiniMax is heavily biased toward Task 2
+
+| Task | Invoked / Total | Rate |
+|---|---|---|
+| t1 (CRM Dashboard) | 2/10 | **20%** |
+| t2 (AI Landing Page) | 6/10 | **60%** |
+
+MiniMax M3는 Task1(B2B CRM)에서 거의 스킬을 호출하지 않음 (combined 1회, taste 1회만). 반면 Task2(다크모드 랜딩페이지)에서는 taste 2회, combined 2회, uiux 2회로 **60%** 호출률. MiniMax 모델이 "cyberpunk/glassmorphism" 같은 특수 키워드에서는 스킬 로드 필요성을 더 강하게 인식.
+
+### 8.5 Invocation Matrix (Group × Task)
+
+| Group | t1 | t2 |
+|---|---|---|
+| combined | 1/2 | 2/2 |
+| taste | 1/2 | 2/2 |
+| uiux | 0/2 | 2/2 |
+
+Exp01(DeepSeek) 대비 **taste의 T2 호출률이 0% → 100%로 반전**되었음. MiniMax M3는 taste-skill을 T2에서 더 적극적으로 활용. uiux는 여전히 T1에서는 호출하지 않음 (두 모델 공통).
+
+### 8.6 Model Comparison: Skill Invocation Rate
+
+| Group | DeepSeek V4 Pro | MiniMax M3 |
+|---|---|---|
+| baseline | 0% | 0% |
+| taste | **50%** | **75%** |
+| uiux | 50% | 50% |
+| design-doc | 0% | 0% |
+| combined | 75% | 75% |
+
+MiniMax M3가 taste 그룹에서 **25%p 더 높은 호출률**을 보임. 다른 그룹은 동일. 이는 MiniMax가 taste skill의 설명(design-taste-frontend)을 Task2 랜딩페이지에 더 잘 매칭시킨 결과.
+
+### 8.7 Key Findings
+
+1. **MiniMax M3 invocation rate: 40% vs DeepSeek 25%.** 더 강한 모델이 스킬을 더 자주 호출함 — 모델의 추론 능력이 스킬 자동선택 확률에 영향.
+2. **design-doc (DESIGN.md)는 두 모델 모두 0% 호출.** DESIGN.md는 `skill()` 메커니즘으로 주입되지 않음. 향후 실험에서 DESIGN.md 조건은 task prompt 인라인 포함 또는 permission 강제가 필요.
+3. **uiux T1 0% 공통.** 두 모델 모두 B2B CRM 대시보드에서는 ui-ux-pro-max 스킬이 불필요하다고 판단. uiux 그룹의 T1 점수는 실질적 baseline.
+4. **invoked 그룹의 점수가 더 높지만 selection bias 주의.** T2가 원래 점수가 높고, uiux/combined가 원래 상위 그룹. 순수 스킬 효과인지 task/group 편향인지 분리하려면 T1에도 강제 호출 조건 실험이 필요.
+5. **taste-t2-r2: 유일한 중복 호출 사례.** MiniMax M3가 taste-t2-r2에서 `design-taste-frontend`를 2회 호출 (재진입). 이런 패턴이 점수에 미치는 영향 분석 가치 있음.
+
+> Data: `evaluation/skill_invocations.csv` | Regenerate: `scripts/merge_skill_metrics.py experiments/02-model-comparison`
+
+---
+
+## 9. Recommendations
 
 1. **MiniMax M3 > DeepSeek V4 Pro for frontend code generation** — undeniably better across all dimensions
 2. **UI-UX Pro Max skill is the safest bet** — #1 in both models, works universally

@@ -159,6 +159,19 @@ main() {
   echo "All experiments completed!"
   echo "Results in: $OUTPUT_DIR"
   echo "========================================"
+
+  # Extract skill invocation metrics and merge into evaluation CSV
+  local repo_root
+  repo_root="$(cd "$SCRIPT_DIR/../.." && pwd)"
+  local merge_script="$repo_root/scripts/merge_skill_metrics.py"
+
+  if [ -f "$merge_script" ]; then
+    echo ""
+    echo "--- Extracting skill invocation metrics ---"
+    python3 "$merge_script" "$SCRIPT_DIR"
+  else
+    echo "SKIP: merge_skill_metrics.py not found at $merge_script"
+  fi
 }
 
 main "$@"

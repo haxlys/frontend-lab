@@ -256,7 +256,62 @@ ADE는 "AI 기반 Agent Development Editor"로, 개발자가 자연어로
 
 ---
 
-## 9. 사전 검증
+## 9. 스킬 호출 추적 (Skill Invocation Tracking)
+
+### 9.1 배경
+
+에이전트가 `<available_skills>` 목록에서 스킬을 발견하더라도, 실제 `skill()` 도구 호출은 **모델의 재량**에 달려 있다.
+태스크 유형, 프롬프트 내용, 모델의 판단에 따라 스킬을 호출할 수도, 무시할 수도 있다.
+따라서 "Group B는 Taste 스킬을 사용했다"라는 라벨만으로는 실제 스킬 효과를 측정할 수 없다.
+
+실제 측정 결과 (Exp01 R2, DeepSeek):
+- **design-doc**(DESIGN.md): 0/4 호출 — 실질적 baseline
+- **uiux**(UI-UX Pro Max): 2/4 호출 — T1에서는 0회, T2에서만 호출
+- **taste**: 2/4 호출 — T1에서만, T2에서는 0회
+
+→ **uiux-t1-r1, uiux-t1-r2**는 실질적으로 **baseline 조건**에서 생성된 결과다.
+
+### 9.2 추출 방법
+
+`session.log`에서 ANSI 이스케이프를 제거한 후 `→ Skill "<name>"` 패턴을 정규식으로 추출:
+
+```bash
+python3 scripts/extract_skill_metrics.py experiments/01-skill-comparison/output
+```
+
+`run.sh` 종료 시 자동 실행되도록 통합되어 있음.
+
+### 9.3 추출 항목
+
+| 컬럼 | 설명 | 예시 |
+|---|---|---|
+| `Skill_Invoked` | 하나 이상의 스킬을 호출했는지 여부 | `true` / `false` |
+| `Skill_Names` | 호출된 스킬 이름 (복수인 경우 `;` 구분) | `design-taste-frontend;ui-ux-pro-max` |
+| `Skill_Calls` | 총 호출 횟수 | `1`, `2` |
+| `First_Skill_At_Line` | 첫 호출 발생 라인 번호 (초기 로드 vs 중간 로드 판별) | `4`, `15`, `N/A` |
+| `Total_Tool_Calls` | 세션 전체 도구 호출 횟수 | `12`, `6` |
+| `Total_Lines` | 세션 로그 총 라인 수 | `430`, `225` |
+
+### 9.4 보고서 통합
+
+`metrics.csv`에 컬럼이 병합되며, `summary-report.md`에 다음 분석이 포함된다:
+
+1. **Overall invocation rate** — 전체 실행 중 스킬 호출 비율
+2. **Per-group invocation table** — 각 그룹별 호출률 및 사용된 스킬 목록
+3. **Score comparison (invoked vs not-invoked)** — 7개 차원별 호출/비호출 점수 비교
+4. **Task-type skew** — 태스크 유형별 호출률 차이
+5. **Invocation matrix (Group × Task)** — 그룹×태스크 교차표
+6. **Confounding variable 분석** — selection bias 및 태스크 편향 해석
+
+### 9.5 한계 및 주의사항
+
+- **DESIGN.md는 `skill()` 주입 대상이 아님.** `DESIGN.md`는 디렉토리 내 평문 파일로, 에이전트가 `Read` 도구로 읽을 수는 있으나 `skill()` 호출 대상이 아니다.
+- **호출 여부가 인과관계를 의미하지 않음.** invoked 그룹의 점수가 높은 것은 스킬 효과보다 T2 편중(원래 고득점) + 상위 그룹 편중일 가능성.
+- **순수 효과 측정을 위한 대안 설계 필요.** T1에서도 스킬 호출을 강제하는 조건(sysprompt에 "You MUST invoke available skills")을 추가해 동일 태스크 내 호출/비호출 비교 가능.
+
+---
+
+## 10. 사전 검증
 
 - [x] `opencode/deepseek-v4-flash-free` 모델 정상 동작 확인
 - [x] Docker isolation 검증 완료 (호스트 `~/.agents/skills/` 10개 스킬 완전 차단)

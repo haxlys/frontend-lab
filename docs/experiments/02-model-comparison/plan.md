@@ -224,12 +224,36 @@ MODEL="commandcode/MiniMaxAI/MiniMax-M3"
 | H3 | 복잡한 Task(T2)에서 모델 간 격차가 더 크게 벌어질 것이다 | T1 vs T2 점수 차이 비교 |
 | H4 | 코드 생성 실패율이 DeepSeek 대비 높을 것이다 (20% 이상) | 실패율 비교 |
 | H5 | MiniMax M3는 스킬이 주입된 그룹에서 상대적 이득이 더 클 것이다 (baseline 대비 향상폭) | 각 모델의 (스킬 그룹 - baseline) 차이 비교 |
+| **H6** | **MiniMax M3가 DeepSeek V4 Pro보다 스킬 호출률이 높을 것이다** | 두 모델의 `Skill_Invoked` 비율 비교 |
+| **H7** | **Task 종류(T1 vs T2)에 따른 스킬 호출 패턴이 모델 간에 다를 것이다** | Group × Task invocation matrix 비교 |
 
 ---
 
 ## 7. 평가
 
 → [evaluation-framework.md](../_common/evaluation-framework.md) 참조.
+
+### 7.1 스킬 호출 추적
+
+Exp01에서 발견된 **Confounding Variable** 문제를 해결하기 위해, Exp02부터 스킬 호출 여부를 정량 지표로 추적한다.
+
+측정 방법:
+```bash
+python3 scripts/extract_skill_metrics.py experiments/02-model-comparison/output
+python3 scripts/merge_skill_metrics.py experiments/02-model-comparison
+```
+
+분석 항목:
+| 항목 | DeepSeek (Exp01) | MiniMax (Exp02) | 비교 |
+|---|---|---|---|
+| Overall 호출률 | 25% | — | 모델별 스킬 인식률 |
+| taste 그룹 호출률 | 50% | — | 모델별 taste 적합성 판단 |
+| uiux 그룹 호출률 | 50% | — | 모델별 ui-ux-pro-max 적합성 판단 |
+| T1 호출률 | 21% | — | 태스크 유형 bias |
+| T2 호출률 | 28% | — | 태스크 유형 bias |
+| design-doc 호출률 | 0% | — | DESIGN.md 주입 실패 확인 |
+
+→ [evaluation-framework.md](../_common/evaluation-framework.md) 3.1절 참조.
 
 ---
 
@@ -255,6 +279,16 @@ Exp 02 완료 후 수행할 비교 분석:
 | Skill amplification | 모델별로 특정 스킬이 얼마나 점수를 올리는가 (스킬그룹 - baseline) |
 | Skill ceiling | 모델별 최고 달성 가능 점수 (가장 높은 그룹) |
 | Skill floor | 모델별 최저 점수 (baseline) |
+
+### 8.3 Skill Invocation Cross-Model Comparison
+
+| 분석 항목 | 데이터 소스 | 설명 |
+|---|---|---|
+| 호출률 비교 | `skill_invocations.csv` (양쪽) | 모델별 전체/그룹별/태스크별 호출률 차이 |
+| Selection bias 분석 | invocation matrix + blind_scores | 호출된 그룹이 원래 고득점 그룹인지 confounding 확인 |
+| Task-type interaction | Group × Task 호출 매트릭스 | T1/T2에서 모델별 선호 스킬 패턴 비교 |
+| Invoked-only 점수 비교 | invoked=true인 행만 필터 | 순수 스킬 효과에 가장 근접한 비교 |
+| 호출 시점 분석 | `First_Skill_At_Line` | 모델별로 스킬을 언제 로드하는지 (초기 vs 중간) |
 
 ---
 

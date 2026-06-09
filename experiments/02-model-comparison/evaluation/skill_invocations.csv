@@ -1,0 +1,16 @@
+Run,Skill_Invoked,Skill_Names,Skill_Calls,First_Skill_At_Line,Total_Tool_Calls,Total_Lines
+baseline-t1-r1,false,,0,N/A,2,262
+baseline-t2-r1,false,,0,N/A,0,199
+baseline-t2-r2,false,,0,N/A,0,155
+combined-t1-r1,true,design-taste-frontend,1,5,6,300
+combined-t2-r1,true,design-taste-frontend,1,5,2,526
+combined-t2-r2,true,design-taste-frontend,1,5,7,482
+design-doc-t1-r1,false,,0,N/A,3,257
+design-doc-t2-r1,false,,0,N/A,2,163
+design-doc-t2-r2,false,,0,N/A,7,493
+taste-t1-r2,true,design-taste-frontend,1,5,3,196
+taste-t2-r1,true,design-taste-frontend,1,5,10,332
+taste-t2-r2,true,design-taste-frontend;design-taste-frontend,2,5,6,269
+uiux-t1-r2,false,,0,N/A,4,208
+uiux-t2-r1,true,ui-ux-pro-max,1,11,1,106
+uiux-t2-r2,true,ui-ux-pro-max,1,5,4,339
