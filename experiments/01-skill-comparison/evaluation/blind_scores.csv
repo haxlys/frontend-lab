@@ -27,3 +27,7 @@ uiux-t1-r1,uiux,t1,r1,3,4,3,3,3,3,3
 uiux-t1-r2,uiux,t1,r2,4,4,4,4,4,3,4
 uiux-t2-r1,uiux,t2,r1,5,4,4,4,3,5,5
 uiux-t2-r2,uiux,t2,r2,5,4,5,4,3,5,5
+reference-t1-r1,reference,t1,r1,3,4,3,3,3,3,3
+reference-t1-r2,reference,t1,r2,4,4,4,4,4,4,4
+reference-t2-r1,reference,t2,r1,5,4,4,4,4,4,4
+reference-t2-r2,reference,t2,r2,5,5,5,4,5,4,5

@@ -27,3 +27,7 @@ uiux-t1-r1,10,564,false,,0,N/A
 uiux-t1-r2,13,577,false,,0,N/A
 uiux-t2-r1,9,717,true,ui-ux-pro-max,1,5
 uiux-t2-r2,9,584,true,ui-ux-pro-max,1,4
+reference-t1-r1,8,574
+reference-t1-r2,8,441
+reference-t2-r1,8,604
+reference-t2-r2,8,433

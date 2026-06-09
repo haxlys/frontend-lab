@@ -32,6 +32,7 @@
 | # | Group | Overall | T1 (CRM) | T2 (Landing) | T1→T2 Δ | Files (avg) | Lines (avg) |
 |---|---|---|---|---|---|---|---|
 | 🥇 | **F (Interfaces)** | **4.00** | 3.29 | 4.71 | +1.42 | 9.3 | 745 |
+| 🥇 | **I (Reference)** | **4.00** | 3.57 | 4.43 | +0.86 | 8.0 | 513 |
 | 🥈 | C (UI-UX Pro Max) | **3.93** | 3.50 | 4.36 | +0.86 | 10.3 | 611 |
 | 🥉 | A (Baseline) | **3.78** | 3.43 | 4.14 | +0.71 | 9.8 | 714 |
 | 4 | E (Taste+DESIGN.md) | **3.64** | 4.07 | 3.21 | -0.86 | 8.0 | 477 |
@@ -46,6 +47,7 @@
 | Group | Visual | Layout | Color | Spacing | Responsive | Typo | Pro |
 |---|---|---|---|---|---|---|---|
 | F (Interfaces) | 4.00 | 4.25 | 4.00 | **4.50** | 4.25 | 3.75 | 4.00 |
+| I (Reference) | 4.25 | 4.25 | 4.00 | 3.75 | 4.00 | 3.75 | 4.00 |
 | C (UI-UX Pro Max) | 4.25 | 4.00 | 4.00 | 3.75 | 3.25 | 4.00 | **4.25** |
 | A (Baseline) | **4.50** | 3.75 | 3.25 | 3.75 | **4.50** | **4.50** | 3.50 |
 | E (Taste+DESIGN.md) | 3.75 | 3.50 | 3.75 | 3.50 | 3.75 | 3.75 | 3.50 |
@@ -116,21 +118,29 @@
 - **T2**: glass morphism, glow border, canvas particles, cursor glow 구현 — 스킬 없이 모델 기본기만으로 가능
 - **특징**: 근본 원인 — MWG는 **Claude Code 플러그인**으로 설계되었다 (`.claude-plugin/plugin.json`, `/modern-web-guidance search` 명령어 호출 방식). OpenCode의 `.agents/skills/` 경로는 콘텐츠 스킬(taste, uiux, interfaces)을 위한 자동 주입 구조인 반면, MWG는 CLI 도구 사용설명서에 가깝다. **이것이 MWG의 일반적인 사용법이고, 원본 그대로 사용한 결과가 "호출 0회"다.** 실험 설계 오류가 아니라, MWG의 설계 철학이 OpenCode 스킬 시스템과 맞지 않는 것을 증명한 유효한 결과.
 
+### Group I (Reference) — Overall 4.00, 🥇 (공동 1위)
+
+- **구성**: 스킬 없음. Baseline과 동일한 Docker isolation. Task 2에 `https://ideogram.ai` 레퍼런스 URL만 추가.
+- **T2**: 4.43 — ideogram 레퍼런스가 dark theme, grid gallery, TagFilter pill navigation, floating search bar로 코드에 직접 반영. `reference-t2-r2` 4.71 (masonry gallery, gradient search, keyboard shortcut `/`, image cards).
+- **T1**: 3.57 — 공통 프롬프트 사용. Baseline T1(3.43) 대비 +0.14 (noise).
+- **Baseline 대비**: Overall +0.22, T2 +0.29. **프롬프트에 URL 하나로 1위권.**
+- **특징**: 스킬 없이 URL 레퍼런스만으로 interfaces(15KB 스킬)와 동률 1위. **프롬프트 엔지니어링의 힘 > 작은 스킬**임을 시사.
+
 ---
 
-## 6. R1 vs R2 vs R3 비교
+## 6. R1 vs R2 vs R3 vs R4 비교
 
-| 항목 | R1 | R2 | R3 |
-|---|---|---|---|
-| 1위 | C (UI-UX Pro Max): 3.61 | F (Interfaces): 4.00 | — |
-| 꼴찌 | E (Taste+DESIGN.md): 3.11 | G (Modern Web): 3.57 | — |
-| A~E 평균 | 3.11 | 3.66 | — |
-| 빌드 실패 | 0/20 | 0/20 | 0/8 |
-| 코드 생성 실패 | 0/20 | 4/20 (20%) | 0/8 (0%) |
-| 평균 TSX Files | 7.0 | 8.7 | 9.2 |
-| 평균 TSX Lines | 369 | 552 | 685 |
-| 접근성 | 전무 | 전무 (aria-label 일부) | F: 없음, G: 1건 |
-| Best Visual | T2 gradient text/glow | T2 canvas particles, mouse glow, framer-motion | F T2: font-smoothing + layered shadows + glass |
+| 항목 | R1 | R2 | R3 | R4 |
+|---|---|---|---|---|
+| 1위 | C (UI-UX Pro Max): 3.61 | F (Interfaces): 4.00 | I (Reference): 4.00 | — |
+| 꼴찌 | E (Taste+DESIGN.md): 3.11 | G (Modern Web): 3.57 | — | — |
+| A~E 평균 | 3.11 | 3.66 | — | — |
+| 빌드 실패 | 0/20 | 0/20 | 0/8 | 0/4 |
+| 코드 생성 실패 | 0/20 | 4/20 (20%) | 0/8 (0%) | 0/4 (0%) |
+| 평균 TSX Files | 7.0 | 8.7 | 9.2 | 8.0 |
+| 평균 TSX Lines | 369 | 552 | 685 | 513 |
+| 접근성 | 전무 | 전무 (aria-label 일부) | F: 없음, G: 1건 | 전무 |
+| Best Visual | T2 gradient text/glow | T2 canvas particles, mouse glow, framer-motion | F T2: font-smoothing + layered shadows + glass | I T2: ideogram-style masonry + gradient search + image cards |
 
 ---
 
@@ -146,6 +156,8 @@
 | H6 | F 접근성 < C | — | — | ✅ Confirmed |
 | H7 | G 접근성 최고 | — | — | ❌ Zero usage |
 | H8 | G Modern API 활용도 압도적 | — | — | ❌ Zero usage |
+| H9 | I(Reference) 는 Baseline 보다 높지만, skill groups(uiux/interfaces) 보다는 낮을 것 | — | — | 🟡 Partially — Baseline보다 높지만(4.00), interfaces와 동률 |
+| H10 | I(Reference) T2 점수 상승 — ideogram.ai 와 T2 시각적 유사성 | — | — | ✅ Confirmed — T2 4.43, 코드에 grid/tag/search 패턴 반영 |
 
 ---
 
