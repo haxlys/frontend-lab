@@ -579,8 +579,12 @@ experiments/01-skill-comparison/
 - [x] make-interfaces-feel-better 분석 완료 — 원본 `skills/make-interfaces-feel-better/` (SKILL.md + 4개 서브파일) 그대로 사용
 - [x] modern-web-guidance 분석 완료 — 원본 `skills/modern-web-guidance/` (SKILL.md + 137개 guides). Dockerfile.mwg + run_group_mwg.sh 생성 완료
 - [x] 7개 그룹 디렉토리 구조 완료 (baseline, taste, uiux, design-doc, combined, interfaces, modern-web)
-- [ ] `Dockerfile.mwg` 이미지 빌드 (`docker build -t opencode-experiment-mwg -f Dockerfile.mwg .`)
-- [ ] `run.sh` — `groups` 리스트에 `interfaces` 및 `modern-web` 추가
-- [ ] `run_group_mwg.sh` — modern-web 그룹 정상 작동 검증 (Docker 내 `npx modern-web-guidance search` 확인)
-- [ ] baseline-t1-r1 실행 및 `npm install` 정상 동작 확인
+- [x] `run.sh` — `groups` 리스트에 `interfaces` 추가 완료 (`modern-web`는 `run_group_mwg.sh`로 분리 실행)
+- [x] `run_group_mwg.sh` — DOCKER_IMAGE="opencode-experiment-mwg", MODEL="commandcode/deepseek/deepseek-v4-pro" 확인
+- [x] `Dockerfile.mwg` — `npm install -g modern-web-guidance@latest` 구문 확인
+- [x] 모든 스킬 디렉토리명 원본 레포와 일치 (taste-skill, ui-ux-pro-max, make-interfaces-feel-better, modern-web-guidance)
+- [x] 모든 스킬 파일 구성 원본 레포와 일치 (interfaces: 5파일, modern-web: 138파일)
+- [ ] `Dockerfile.mwg` 이미지 빌드 (`docker build -t opencode-experiment-mwg -f Dockerfile.mwg .`) — Docker 데몬 필요
+- [ ] `run_group_mwg.sh` — modern-web 그룹 정상 작동 검증 (Docker 내 `npx modern-web-guidance search` 확인) — Docker 데몬 필요
+- [ ] baseline-t1-r1 실행 및 `npm install` 정상 동작 확인 — Docker 데몬 필요
 - [ ] 28회 전체 실행 (약 4-5시간 소요 예상)
